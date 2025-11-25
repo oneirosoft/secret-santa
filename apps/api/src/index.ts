@@ -1,6 +1,6 @@
 import { Elysia, Static, status, t } from "elysia";
 import Workshop from '@secret-santa/prelude/workshop'
-import repo from '@secret-santa/data/repositories/repository.mock'
+import repo from '@secret-santa/data/mock/repository.mock'
 import Result from '@secret-santa/data/result'
 import Pneumonic from "@secret-santa/prelude/pneumonic";
 
