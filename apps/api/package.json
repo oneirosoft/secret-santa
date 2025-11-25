@@ -1,0 +1,17 @@
+{
+  "name": "@secret-santa/api",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "elysia": "latest",
+    "@secret-santa/prelude": "workspace:*",
+    "@secret-santa/data": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "module": "src/index.js"
+}

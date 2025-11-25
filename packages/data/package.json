@@ -1,14 +1,14 @@
 {
-  "name": "@secret-santa/prelude",
+  "name": "@secret-santa/data",
   "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@secret-santa/prelude": "workspace:*"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "type": "module",
-  "dependencies": {
-    "uuid": "^13.0.0"
   }
 }
