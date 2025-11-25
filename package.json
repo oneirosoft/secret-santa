@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "dev:web": "bun run --cwd apps/web dev",
+    "dev:api": "bun run --cwd apps/api dev",
     "build:web": "bun run --cwd apps/web build",
     "start:web": "bun run --cwd apps/web start",
     "check:types": "tsc --pretty --noEmit -p tsconfig.json"

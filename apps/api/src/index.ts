@@ -7,6 +7,7 @@ import Pneumonic from "@secret-santa/prelude/pneumonic";
 
 const WorkshopSchema = t.Object({
   id: t.Object({ value: t.String() }),
+  name: t.String(),
   dollarLimit: t.Number(),
   players: t.Array(t.Object({
     nickname: t.String(),
@@ -20,8 +21,8 @@ const WorkshopSchema = t.Object({
 const CreateWorkshopSchema = t.Omit(WorkshopSchema, ['id'])
 
 const createWorkshop = ({ body }: { body: Static<typeof CreateWorkshopSchema> }) => {
-  const { dollarLimit, players } = body
-  const initial = Workshop.create(dollarLimit)
+  const { dollarLimit, players, name } = body
+  const initial = Workshop.create({ dollarLimit, name })
   const workshop = Workshop.addPlayers(players)(initial)
   const result = repo.save(workshop)
 

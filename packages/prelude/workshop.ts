@@ -4,12 +4,14 @@ import Pn from "./pneumonic"
 
 export type Workshop = {
     id: Pneumonic,
+    name: string,
     dollarLimit: number,
     players: Player[]
 }
 
-const create = (dollarLimit: number): Workshop => ({
+const create = ({ dollarLimit, name }: Pick<Workshop, 'dollarLimit' | 'name'>): Workshop => ({
     id: Pn.create(5),
+    name,
     dollarLimit: dollarLimit,
     players: []
 })
