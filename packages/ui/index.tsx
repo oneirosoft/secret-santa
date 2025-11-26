@@ -4,7 +4,7 @@ type Variant = "primary" | "secondary";
 
 const variantStyles: Record<Variant, CSSProperties> = {
   primary: {
-    background: "linear-gradient(90deg, #d946ef, #8b5cf6)",
+    background: "linear-gradient(90deg, #c41e3a, #165b33)",
     color: "#fff"
   },
   secondary: {
@@ -37,7 +37,7 @@ export function Button({
       style={{
         ...shared,
         ...variantStyles[variant],
-        boxShadow: variant === "primary" ? "0 10px 25px rgba(217,70,239,0.35)" : "none",
+        boxShadow: variant === "primary" ? "0 10px 25px rgba(196,30,58,0.35)" : "none",
         transform: "translateY(0)",
         ...style
       }}

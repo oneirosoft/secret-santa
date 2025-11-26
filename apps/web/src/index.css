@@ -1,9 +1,8 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Mountains of Christmas', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #bfe8ff;
 }
 body {
   margin: 0;
@@ -13,25 +12,65 @@ body {
   min-height: 100vh;
   position: relative;
 }
-body::before {
-  content: "";
+.snow,
+.snow::before,
+.snow::after {
   position: fixed;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.05;
-  background: url("./logo.svg");
-  background-size: 256px;
-  transform: rotate(-12deg) scale(1.35);
-  animation: slide 30s linear infinite;
+  top: -10vh;
+  left: 0;
+  width: 100vw;
+  height: 110vh;
   pointer-events: none;
+  background-repeat: repeat;
+  background-image:
+    radial-gradient(4px 4px at 10px 10px, rgba(255,255,255,0.95) 55%, transparent 56%),
+    radial-gradient(4px 4px at 50px 30px, rgba(255,255,255,0.9) 55%, transparent 56%),
+    radial-gradient(6px 6px at 100px 70px, rgba(255,255,255,0.92) 55%, transparent 56%),
+    radial-gradient(3px 3px at 140px 110px, rgba(255,255,255,0.95) 55%, transparent 56%),
+    radial-gradient(5px 5px at 180px 150px, rgba(255,255,255,0.98) 55%, transparent 56%);
+  background-size: 240px 240px;
+  background-position:
+    0 0,
+    50px 30px,
+    100px 70px,
+    140px 110px,
+    180px 150px;
+  animation: snowScroll 6s linear infinite;
+  animation-delay: 0s;
+  will-change: background-position;
+  z-index: 0;
 }
-@keyframes slide {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 256px 224px;
-  }
+.snow::before {
+  content: "";
+  animation: snowScroll 9s linear infinite;
+  animation-delay: 0s;
+  opacity: 0.8;
+  filter: blur(1px);
+  background-repeat: repeat;
+  background-position:
+    20px 20px,
+    70px 10px,
+    120px 50px,
+    160px 90px,
+    10px 130px;
+}
+.snow::after {
+  content: "";
+  animation: snowScroll 4s linear infinite;
+  animation-delay: 0s;
+  opacity: 0.6;
+  filter: blur(1.6px);
+  background-repeat: repeat;
+  background-position:
+    30px 0px,
+    0px 60px,
+    80px 20px,
+    120px 100px,
+    160px 40px;
+}
+@keyframes snowScroll {
+  0% { background-position-y: 0; }
+  100% { background-position-y: 240px; }
 }
 .app {
   max-width: 1280px;
@@ -41,147 +80,35 @@ body::before {
   position: relative;
   z-index: 1;
 }
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 0.3s;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.bun-logo {
-  transform: scale(1.2);
-}
-.bun-logo:hover {
-  filter: drop-shadow(0 0 2em #fbf0dfaa);
-}
-.react-logo {
-  animation: spin 20s linear infinite;
-}
-.react-logo:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-@keyframes spin {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 h1 {
-  font-size: 3.2em;
+  font-size: 5.4em;
   line-height: 1.1;
+  color: black;
 }
-code {
-  background-color: #1a1a1a;
-  padding: 0.2em 0.4em;
-  border-radius: 0.3em;
-  font-family: monospace;
+p {
+  font-size: 1.4em;
+  color: black;
 }
-.api-tester {
-  margin: 2rem auto 0;
+.workshop-input {
   width: 100%;
-  max-width: 600px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.endpoint-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #1a1a1a;
-  padding: 0.75rem;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  font-size: 1.1em;
+  font-family: 'Mountains of Christmas', Inter, system-ui, sans-serif;
+  border: 3px solid #165b33;
   border-radius: 12px;
-  font: monospace;
-  border: 2px solid #fbf0df;
-  transition: 0.3s;
-  width: 100%;
-  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background-color: white;
+  color: black;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.endpoint-row:focus-within {
-  border-color: #f3d5a3;
+.workshop-input:focus {
+  border-color: #c41e3a;
+  box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15);
 }
-.method {
-  background: #fbf0df;
-  color: #1a1a1a;
-  padding: 0.3rem 0.7rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9em;
-  appearance: none;
-  margin: 0;
-  width: min-content;
-  display: block;
-  flex-shrink: 0;
-  border: none;
-}
-.method option {
-  text-align: left;
-}
-.url-input {
-  width: 100%;
-  flex: 1;
-  background: 0;
-  border: 0;
-  color: #fbf0df;
-  font: 1em monospace;
-  padding: 0.2rem;
-  outline: 0;
-}
-.url-input:focus {
-  color: #fff;
-}
-.url-input::placeholder {
-  color: rgba(251, 240, 223, 0.4);
-}
-.send-button {
-  background: #fbf0df;
-  color: #1a1a1a;
-  border: 0;
-  padding: 0.4rem 1.2rem;
-  border-radius: 8px;
-  font-weight: 700;
-  transition: 0.1s;
-  cursor: var(--bun-cursor);
-}
-.send-button:hover {
-  background: #f3d5a3;
-  transform: translateY(-1px);
-  cursor: pointer;
-}
-.response-area {
-  width: 100%;
-  min-height: 120px;
-  background: #1a1a1a;
-  border: 2px solid #fbf0df;
-  border-radius: 12px;
-  padding: 0.75rem;
-  color: #fbf0df;
-  font: monospace;
-  resize: vertical;
-  box-sizing: border-box;
-}
-.response-area:focus {
-  border-color: #f3d5a3;
-}
-.response-area::placeholder {
-  color: rgba(251, 240, 223, 0.4);
-}
-@media (prefers-reduced-motion) {
-  *,
-  ::before,
-  ::after {
-    animation: none !important;
-  }
+.workshop-input::placeholder {
+  color: #666;
+  opacity: 0.7;
 }
