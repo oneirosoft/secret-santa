@@ -1,3 +1,5 @@
+import Result, { type ResultType } from "./result";
+
 const winterWords: string[] = [
   "winter",
   "snow",
@@ -103,19 +105,22 @@ export type Pneumonic = {
   readonly value: string;
 };
 
-const create = (n: number) =>({
-  value: 
+const create = (n: number) => ({
+  value:
     Array.from({ length: n }, () =>
       Math.floor(Math.random() * winterWords.length),
     )
       .map((i) => winterWords[i])
       .reduce((acc, curr) => `${acc}-${curr}`)
-      ?.toLowerCase() ?? ""
-})
+      ?.toLowerCase() ?? "",
+});
 
-const from = (value: string): Pneumonic => ({ value })
+const from = (value: string): ResultType<Pneumonic> =>
+  /^(\w-?)+\w$/.test(value)
+    ? Result.success({ value })
+    : Result.error(`Could not create ${value} into a pneumonic`);
 
 export default {
   create,
-  from
+  from,
 };

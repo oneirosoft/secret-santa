@@ -1,4 +1,4 @@
-import type { ResultType } from "./result";
+import type { ResultType } from "@secret-santa/prelude/result";
 
 export interface IRepository<T, TId> {
     save: (value: T) => ResultType<T>;

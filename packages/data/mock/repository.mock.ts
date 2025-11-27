@@ -1,7 +1,7 @@
 import type { IRepository } from "../abstractions";
 import type { Workshop } from '@secret-santa/prelude/workshop'
 import type { Pneumonic } from "@secret-santa/prelude/pneumonic";
-import Result, { type ResultType } from '../result'
+import Result, { type ResultType } from '@secret-santa/prelude/result'
 
 const _workshops: Workshop[] = []
 
