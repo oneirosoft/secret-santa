@@ -33,7 +33,11 @@ const removeItem =
 
 const addTag =
   (tag: string) =>
-    (player: Player): Player => ({ ...player, tags: player.tags.add(tag) });
+    (player: Player): Player => {
+      const newTags = new Set(player.tags);
+      newTags.add(tag);
+      return { ...player, tags: newTags };
+    };
 
 const removeTag =
   (tag: string) =>
