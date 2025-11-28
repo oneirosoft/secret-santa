@@ -1,0 +1,14 @@
+{
+  "name": "@secret-santa/domain",
+  "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@secret-santa/prelude": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
