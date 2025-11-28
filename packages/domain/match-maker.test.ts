@@ -150,7 +150,7 @@ describe("producePairs", () => {
     }
 
     // Verify sally (and every other player) is only assigned to one giver
-    for (const [receiver, givers] of receiverMap) {
+    for (const [_, givers] of receiverMap) {
       expect(givers.length).toBe(1);
     }
 
