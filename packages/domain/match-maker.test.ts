@@ -1,6 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { producePairs } from "./match-maker";
+import matchMaker from "./match-maker";
 import type { Player } from "@secret-santa/prelude/player";
+import Result from "@secret-santa/prelude/result";
+
+const { producePairs } = matchMaker;
 
 describe("producePairs", () => {
   test("no PlayerPair has players with the same tags", () => {
@@ -12,7 +15,11 @@ describe("producePairs", () => {
       { nickname: "charlie", wishlist: [], tags: new Set(["friends"]) },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     for (const [giver, receiver] of pairs) {
       const intersection = giver.tags.intersection(receiver.tags);
@@ -28,7 +35,11 @@ describe("producePairs", () => {
       { nickname: "alice", wishlist: [], tags: new Set(["coworkers"]) },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     for (const [giver, receiver] of pairs) {
       expect(giver.nickname).not.toBe(receiver.nickname);
@@ -43,7 +54,11 @@ describe("producePairs", () => {
       { nickname: "alice", wishlist: [], tags: new Set(["coworkers"]) },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     // Collect all receivers (victims)
     const receivers = pairs.map(([_giver, receiver]) => receiver.nickname);
@@ -69,7 +84,11 @@ describe("producePairs", () => {
       { nickname: "sally", wishlist: [], tags: new Set(["work"]) },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     expect(pairs.length).toBe(players.length);
   });
@@ -81,7 +100,11 @@ describe("producePairs", () => {
       { nickname: "sally", wishlist: [], tags: new Set() },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     expect(pairs.length).toBe(players.length);
 
@@ -106,7 +129,11 @@ describe("producePairs", () => {
       { nickname: "charlie", wishlist: [], tags: new Set(["neighbors", "cooking"]) },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     expect(pairs.length).toBe(players.length);
 
@@ -137,7 +164,11 @@ describe("producePairs", () => {
       { nickname: "sally", wishlist: [], tags: new Set(["work"]) },
     ];
 
-    const pairs = producePairs(players);
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
 
     // Count how many times each player is a receiver
     const receiverMap = new Map<string, string[]>(); // receiver -> givers
@@ -159,5 +190,64 @@ describe("producePairs", () => {
     expect(receiverMap.has("jon")).toBe(true);
     expect(receiverMap.has("bob")).toBe(true);
     expect(receiverMap.has("sally")).toBe(true);
+  });
+
+  test("returns empty array when players array is empty", () => {
+    const players: Player[] = [];
+
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
+
+    expect(pairs).toEqual([]);
+    expect(pairs.length).toBe(0);
+  });
+
+  test("returns error result when over half the players have the same tag", () => {
+    const players: Player[] = [
+      { nickname: "bob", wishlist: [], tags: new Set(["blue"]) },
+      { nickname: "jon", wishlist: [], tags: new Set(["blue"]) },
+      { nickname: "sally", wishlist: [], tags: new Set(["blue"]) },
+      { nickname: "sarah", wishlist: [], tags: new Set(["green"]) },
+    ];
+
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(false);
+    if (Result.isSuccess(result)) return;
+
+    // Should return error because 3 out of 4 players have "blue" tag
+    // which is more than half, making valid pairing impossible
+    expect(result.message).toBe("Over half the players have the same tag, pairs cannot be created as a result");
+  });
+
+  test("successfully creates pairs when exactly half the players share a tag", () => {
+    const players: Player[] = [
+      { nickname: "bob", wishlist: [], tags: new Set(["blue"]) },
+      { nickname: "jon", wishlist: [], tags: new Set(["blue"]) },
+      { nickname: "sally", wishlist: [], tags: new Set(["green"]) },
+      { nickname: "sarah", wishlist: [], tags: new Set(["green"]) },
+    ];
+
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(true);
+    if (!Result.isSuccess(result)) return;
+    
+    const pairs = result.value;
+
+    // Should successfully create pairs because exactly half have each tag
+    expect(pairs.length).toBe(players.length);
+
+    // Verify all constraints
+    for (const [giver, receiver] of pairs) {
+      expect(giver.tags.intersection(receiver.tags).size).toBe(0);
+      expect(giver.nickname).not.toBe(receiver.nickname);
+    }
+
+    // Verify unique receivers
+    const receivers = pairs.map(([_giver, receiver]) => receiver.nickname);
+    const uniqueReceivers = new Set(receivers);
+    expect(uniqueReceivers.size).toBe(players.length);
   });
 });

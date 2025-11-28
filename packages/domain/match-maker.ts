@@ -1,8 +1,35 @@
 import type { Player } from "@secret-santa/prelude/player";
+import Result, { type ResultType } from "@secret-santa/prelude/result";
 
 type PlayerPair = [Player, Player];
+type PlayerPairs = PlayerPair[];
 
-const producePairs = (players: Player[]): PlayerPair[] => {
+const producePairs = (players: Player[]): ResultType<PlayerPairs> => {
+  if (Array.length === 0) return Result.success([]);
+
+  // validate that there are not more of one tag then any other tag
+  // if the players with the same tag outnumber all other players without
+  // it is impossible to find pairs
+  const allTags = new Set(players.flatMap((p) => Array.from(p.tags)));
+  const playerTagCount = Array.from(allTags).reduce(
+    (acc: Map<string, number>, curr: string) => {
+      const count = players.filter((p) => p.tags.has(curr)).length;
+      acc.set(curr, count);
+      return acc;
+    },
+    new Map<string, number>(),
+  );
+
+  const tooManyWithSameTag = playerTagCount.entries().some(([_, count]) => {
+    const withoutTag = players.length - count;
+    return withoutTag < count;
+  });
+
+  if (tooManyWithSameTag)
+    return Result.error(
+      "Over half the players have the same tag, pairs cannot be created as a result",
+    );
+
   const alreadyMatched = new Set<string>();
   const pairs: PlayerPair[] = [];
   do {
@@ -22,7 +49,7 @@ const producePairs = (players: Player[]): PlayerPair[] => {
     }
   } while (alreadyMatched.size !== players.length);
 
-  return pairs;
+  return Result.success(pairs);
 };
 
 export default { producePairs };

@@ -1,5 +1,6 @@
 import type { Player as PlayerType } from "@secret-santa/prelude/player";
 import MatchMaker from "./match-maker";
+import result from "@secret-santa/prelude/result";
 
 const players: PlayerType[] = [
   { nickname: "Tiff", wishlist: [], tags: new Set(["blue"]) },
@@ -10,4 +11,5 @@ const players: PlayerType[] = [
 
 const pairs = MatchMaker.producePairs(players);
 
-console.log(pairs);
+if (result.isSuccess(pairs))
+  console.log(pairs.value);
