@@ -9,7 +9,7 @@ export type Player = {
   tags: Set<string>;
 };
 
-type CreatePlayer = Omit<Player, "id" | "wishlist">;
+type CreatePlayer = Omit<Player, "wishlist">;
 
 const create = ({ nickname }: CreatePlayer): Player => ({
   wishlist: [],
