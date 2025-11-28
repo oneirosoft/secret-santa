@@ -42,8 +42,9 @@ const addTag =
 const removeTag =
   (tag: string) =>
     (player: Player): Player => {
-      player.tags.delete(tag);
-      return { ...player };
+      const newTags = new Set(player.tags);
+      newTags.delete(tag);
+      return { ...player, tags: newTags };
     };
 
 export default {
