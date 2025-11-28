@@ -3,7 +3,7 @@ import Player from "@secret-santa/prelude/player";
 import MatchMaker from "./match-maker";
 
 const players: PlayerType[] = [
-  { nickname: "tiff", wishlist: [], tags: new Set(["blue"]) },
+  { nickname: "Tiff", wishlist: [], tags: new Set(["blue"]) },
   { nickname: "Mark", wishlist: [], tags: new Set(["blue"]) },
   { nickname: "Mom", wishlist: [], tags: new Set() },
   { nickname: "Jeff", wishlist: [], tags: new Set() },
