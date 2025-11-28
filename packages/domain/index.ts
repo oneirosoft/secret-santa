@@ -1,5 +1,4 @@
 import type { Player as PlayerType } from "@secret-santa/prelude/player";
-import Player from "@secret-santa/prelude/player";
 import MatchMaker from "./match-maker";
 
 const players: PlayerType[] = [
