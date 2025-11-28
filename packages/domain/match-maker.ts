@@ -5,7 +5,9 @@ type PlayerPair = [Player, Player];
 type PlayerPairs = PlayerPair[];
 
 const producePairs = (players: Player[]): ResultType<PlayerPairs> => {
-  if (Array.length === 0) return Result.success([]);
+  if (players.length === 0) return Result.success([]);
+  if (players.length === 1)
+    return Result.error("Need to have 2 or more players for proper pairing");
 
   // validate that there are not more of one tag then any other tag
   // if the players with the same tag outnumber all other players without
@@ -42,7 +44,7 @@ const producePairs = (players: Player[]): ResultType<PlayerPairs> => {
         .filter((x) => !alreadyMatched.has(x.nickname)); // cannot be paired w/ already matched
 
       const index = Math.floor(Math.random() * eligible.length);
-      const victim = eligible[index]!;
+      const victim = eligible[index];
       if (!victim) break;
       pairs.push([p, victim]);
       alreadyMatched.add(victim.nickname);

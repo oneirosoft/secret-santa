@@ -192,7 +192,7 @@ describe("producePairs", () => {
     expect(receiverMap.has("sally")).toBe(true);
   });
 
-  test("returns empty array when players array is empty", () => {
+  test("returns success with empty array when players array is empty", () => {
     const players: Player[] = [];
 
     const result = producePairs(players);
@@ -203,6 +203,19 @@ describe("producePairs", () => {
 
     expect(pairs).toEqual([]);
     expect(pairs.length).toBe(0);
+  });
+
+  test("returns error result when only one player is provided", () => {
+    const players: Player[] = [
+      { nickname: "bob", wishlist: [], tags: new Set(["blue"]) },
+    ];
+
+    const result = producePairs(players);
+    expect(Result.isSuccess(result)).toBe(false);
+    if (Result.isSuccess(result)) return;
+
+    // Should return error because you need at least 2 players for pairing
+    expect(result.message).toBe("Need to have 2 or more players for proper pairing");
   });
 
   test("returns error result when over half the players have the same tag", () => {
