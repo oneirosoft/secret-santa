@@ -54,7 +54,7 @@ describe("producePairs", () => {
       receiverCounts.set(receiver, (receiverCounts.get(receiver) || 0) + 1);
     }
 
-    for (const [receiver, count] of receiverCounts) {
+    for (const [_, count] of receiverCounts) {
       expect(count).toBe(1);
     }
 
