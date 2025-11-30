@@ -1,3 +1,4 @@
+import z from "zod";
 import Result, { type ResultType } from "./result";
 
 const winterWords: string[] = [
@@ -101,9 +102,14 @@ const winterWords: string[] = [
   "sleds",
 ] as const;
 
-export type Pneumonic = {
-  readonly value: string;
-};
+export const pneumonicSchema = z.object({
+  value: z
+    .string()
+    .regex(/^(\w-?)+\w$/)
+    .readonly(),
+});
+
+export type Pneumonic = z.infer<typeof pneumonicSchema>;
 
 const create = (n: number) => ({
   value:
