@@ -121,10 +121,12 @@ const create = (n: number) => ({
       ?.toLowerCase() ?? "",
 });
 
-const from = (value: string): ResultType<Pneumonic> =>
-  /^(\w-?)+\w$/.test(value)
-    ? Result.success({ value })
+const from = (value: string): ResultType<Pneumonic> => {
+  const result = pneumonicSchema.safeParse({ value });
+  return result.success
+    ? Result.success(result.data)
     : Result.error(`Could not create ${value} into a pneumonic`);
+};
 
 export default {
   create,
