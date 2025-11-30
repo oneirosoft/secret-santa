@@ -1,13 +1,19 @@
-export type WishlistItem = {
-  name: string;
-  url?: string;
-};
+import z from "zod";
 
-export type Player = {
-  nickname: string;
-  wishlist: WishlistItem[];
-  tags: Set<string>;
-};
+export const wishlistItemSchema = z.object({
+  name: z.string(),
+  url: z.string().optional(),
+});
+
+export type WishlistItem = z.infer<typeof wishlistItemSchema>;
+
+export const playerSchema = z.object({
+  nickname: z.string(),
+  tags: z.set(z.string()),
+  wishlist: z.array(wishlistItemSchema),
+});
+
+export type Player = z.infer<typeof playerSchema>;
 
 type CreatePlayer = Omit<Player, "wishlist">;
 

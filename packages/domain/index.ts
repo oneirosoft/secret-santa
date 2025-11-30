@@ -1,15 +1,10 @@
-import type { Player as PlayerType } from "@secret-santa/prelude/player";
-import MatchMaker from "./match-maker";
-import result from "@secret-santa/prelude/result";
+export { default as Player, playerSchema, wishlistItemSchema } from "./player";
+export type { Player as PlayerType, WishlistItem } from "./player";
 
-const players: PlayerType[] = [
-  { nickname: "Tiff", wishlist: [], tags: new Set(["blue"]) },
-  { nickname: "Mark", wishlist: [], tags: new Set(["blue"]) },
-  { nickname: "Mom", wishlist: [], tags: new Set() },
-  { nickname: "Jeff", wishlist: [], tags: new Set() },
-];
+export { default as Pneumonic, pneumonicSchema } from "./pneumonic";
+export type { Pneumonic as PneumonicType } from "./pneumonic";
 
-const pairs = MatchMaker.producePairs(players);
+export { default as Workshop, workshopSchema } from "./workshop";
+export type { Workshop as WorkshopType } from "./workshop";
 
-if (result.isSuccess(pairs))
-  console.log(pairs.value);
+export { default as MatchMaker } from "./match-maker";

@@ -1,32 +1,15 @@
-import { Elysia, Static, status, t } from "elysia";
-import Workshop from "@secret-santa/prelude/workshop";
+import { Elysia, status } from "elysia";
+import { Workshop, workshopSchema, Pneumonic } from "@secret-santa/domain";
 import repo from "@secret-santa/data/mock/repository.mock";
 import Result from "@secret-santa/prelude/result";
-import Pneumonic from "@secret-santa/prelude/pneumonic";
+import z from "zod";
 
-const WorkshopSchema = t.Object({
-  id: t.Object({ value: t.String() }),
-  name: t.String(),
-  dollarLimit: t.Number(),
-  players: t.Array(
-    t.Object({
-      nickname: t.String(),
-      wishlist: t.Array(
-        t.Object({
-          name: t.String(),
-          url: t.Optional(t.String()),
-        }),
-      ),
-    }),
-  ),
-});
-
-const CreateWorkshopSchema = t.Omit(WorkshopSchema, ["id"]);
+const createWorkshopSchema = workshopSchema.omit({ id: true });
 
 const createWorkshop = ({
   body,
 }: {
-  body: Static<typeof CreateWorkshopSchema>;
+  body: z.infer<typeof createWorkshopSchema>;
 }) => {
   const { dollarLimit, players, name } = body;
   const initial = Workshop.create({ dollarLimit, name });
@@ -49,7 +32,7 @@ const findWorkshop = ({ params: { id } }: { params: { id: string } }) => {
 
 const app = new Elysia()
   .get("/workshop/:id", findWorkshop)
-  .post("/workshop/create", createWorkshop, { body: CreateWorkshopSchema })
+  .post("/workshop/create", createWorkshop, { body: createWorkshopSchema })
   .listen(3000);
 
 console.log(
