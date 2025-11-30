@@ -1,4 +1,4 @@
-import type { Player } from "@secret-santa/prelude/player";
+import type { Player } from "./player";
 import Result, { type ResultType } from "@secret-santa/prelude/result";
 
 type PlayerPair = [Player, Player];

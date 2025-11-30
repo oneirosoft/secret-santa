@@ -1,8 +1,7 @@
-import { Elysia, Static, status, t } from "elysia";
-import Workshop, { workshopSchema } from "@secret-santa/prelude/workshop";
+import { Elysia, status } from "elysia";
+import { Workshop, workshopSchema, Pneumonic } from "@secret-santa/domain";
 import repo from "@secret-santa/data/mock/repository.mock";
 import Result from "@secret-santa/prelude/result";
-import Pneumonic from "@secret-santa/prelude/pneumonic";
 import z from "zod";
 
 const createWorkshopSchema = workshopSchema.omit({ id: true });

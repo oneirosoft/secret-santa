@@ -8,6 +8,7 @@
   "dependencies": {
     "@secret-santa/data": "workspace:*",
     "@secret-santa/prelude": "workspace:*",
+    "@secret-santa/domain": "workspace:*",
     "elysia": "latest",
     "zod": "^4.1.13"
   },

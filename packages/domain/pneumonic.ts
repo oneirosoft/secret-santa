@@ -1,5 +1,5 @@
 import z from "zod";
-import Result, { type ResultType } from "./result";
+import Result, { type ResultType } from "@secret-santa/prelude/result";
 
 const winterWords: string[] = [
   "winter",
