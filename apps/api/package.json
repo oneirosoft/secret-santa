@@ -6,9 +6,10 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.4.0",
     "@secret-santa/data": "workspace:*",
-    "@secret-santa/prelude": "workspace:*",
     "@secret-santa/domain": "workspace:*",
+    "@secret-santa/prelude": "workspace:*",
     "elysia": "latest",
     "zod": "^4.1.13"
   },

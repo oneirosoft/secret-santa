@@ -1,5 +1,6 @@
 :root {
-  font-family: 'Mountains of Christmas', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Mountains of Christmas', Inter, system-ui, Avenir, Helvetica,
+    Arial, sans-serif;
   line-height: 1.5;
   color-scheme: light dark;
   background-color: #bfe8ff;
@@ -22,55 +23,63 @@ body {
   height: 110vh;
   pointer-events: none;
   background-repeat: repeat;
-  background-image:
-    radial-gradient(4px 4px at 10px 10px, rgba(255,255,255,0.95) 55%, transparent 56%),
-    radial-gradient(4px 4px at 50px 30px, rgba(255,255,255,0.9) 55%, transparent 56%),
-    radial-gradient(6px 6px at 100px 70px, rgba(255,255,255,0.92) 55%, transparent 56%),
-    radial-gradient(3px 3px at 140px 110px, rgba(255,255,255,0.95) 55%, transparent 56%),
-    radial-gradient(5px 5px at 180px 150px, rgba(255,255,255,0.98) 55%, transparent 56%);
+  background-image: radial-gradient(
+      4px 4px at 10px 10px,
+      rgba(255, 255, 255, 0.95) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      4px 4px at 50px 30px,
+      rgba(255, 255, 255, 0.9) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      6px 6px at 100px 70px,
+      rgba(255, 255, 255, 0.92) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      3px 3px at 140px 110px,
+      rgba(255, 255, 255, 0.95) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      5px 5px at 180px 150px,
+      rgba(255, 255, 255, 0.98) 55%,
+      transparent 56%
+    );
   background-size: 240px 240px;
-  background-position:
-    0 0,
-    50px 30px,
-    100px 70px,
-    140px 110px,
-    180px 150px;
+  background-position: 0 0, 50px 30px, 100px 70px, 140px 110px, 180px 150px;
   animation: snowScroll 6s linear infinite;
   animation-delay: 0s;
   will-change: background-position;
   z-index: 0;
 }
 .snow::before {
-  content: "";
+  content: '';
   animation: snowScroll 9s linear infinite;
   animation-delay: 0s;
   opacity: 0.8;
   filter: blur(1px);
   background-repeat: repeat;
-  background-position:
-    20px 20px,
-    70px 10px,
-    120px 50px,
-    160px 90px,
-    10px 130px;
+  background-position: 20px 20px, 70px 10px, 120px 50px, 160px 90px, 10px 130px;
 }
 .snow::after {
-  content: "";
+  content: '';
   animation: snowScroll 4s linear infinite;
   animation-delay: 0s;
   opacity: 0.6;
   filter: blur(1.6px);
   background-repeat: repeat;
-  background-position:
-    30px 0px,
-    0px 60px,
-    80px 20px,
-    120px 100px,
-    160px 40px;
+  background-position: 30px 0px, 0px 60px, 80px 20px, 120px 100px, 160px 40px;
 }
 @keyframes snowScroll {
-  0% { background-position-y: 0; }
-  100% { background-position-y: 240px; }
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 240px;
+  }
 }
 .app {
   max-width: 1280px;
@@ -91,7 +100,6 @@ p {
 }
 .workshop-input {
   width: 100%;
-  max-width: 400px;
   padding: 0.75rem 1rem;
   font-size: 1.1em;
   font-family: 'Mountains of Christmas', Inter, system-ui, sans-serif;
@@ -103,6 +111,7 @@ p {
   color: black;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 .workshop-input:focus {
   border-color: #c41e3a;
@@ -111,4 +120,115 @@ p {
 .workshop-input::placeholder {
   color: #666;
   opacity: 0.7;
+}
+.workshop-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 3px solid #165b33;
+  border-radius: 12px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.workshop-result h2 {
+  font-size: 2em;
+  color: #165b33;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.workshop-result p {
+  margin: 0.5rem 0;
+  font-size: 1.2em;
+}
+.workshop-code {
+  font-size: 1.4em !important;
+  color: #c41e3a;
+}
+.workshop-code strong {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.workshop-error {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(196, 30, 58, 0.1);
+  border: 2px solid #c41e3a;
+  border-radius: 8px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.workshop-error p {
+  color: #c41e3a;
+  font-weight: 600;
+  margin: 0;
+}
+.create-workshop-form {
+  margin-top: 1.5rem;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 3px solid #165b33;
+  border-radius: 12px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.form-field {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.form-field label {
+  display: block;
+  font-size: 1.2em;
+  color: #165b33;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.player-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.player-input-row .workshop-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.player-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #165b33;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  font-size: 1em;
+}
+.player-chip button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.player-chip button:hover {
+  color: #c41e3a;
+}
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
 }
