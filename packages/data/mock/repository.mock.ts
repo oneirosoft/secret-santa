@@ -1,6 +1,6 @@
 import type { IRepository } from "../abstractions";
 import type { WorkshopType, PneumonicType } from '@secret-santa/domain'
-import Result, { type ResultType } from '@secret-santa/prelude/result'
+import { Result, type ResultType } from '@secret-santa/prelude'
 
 const _workshops: WorkshopType[] = []
 

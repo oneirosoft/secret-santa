@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import matchMaker from "./match-maker";
 import type { Player } from "./player";
-import Result from "@secret-santa/prelude/result";
+import { Result } from "@secret-santa/prelude";
 
 const { producePairs } = matchMaker;
 

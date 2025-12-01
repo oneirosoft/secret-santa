@@ -1,1 +1,1 @@
-export const message = "Hello from prelude";
+export { default as Result, type ResultType } from "./result";
