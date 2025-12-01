@@ -14,11 +14,12 @@ export type Workshop = z.infer<typeof workshopSchema>;
 const create = ({
     dollarLimit,
     name,
-}: Pick<Workshop, "dollarLimit" | "name">): Workshop => ({
+    players,
+}: Omit<Workshop, "id">): Workshop => ({
     id: Pn.create(5),
     name,
-    dollarLimit: dollarLimit,
-    players: [],
+    dollarLimit,
+    players,
 });
 
 const addPlayers =
@@ -33,7 +34,17 @@ const addPlayers =
             ],
         });
 
+const removePlayers =
+    (players: Player[]) =>
+        (workshop: Workshop): Workshop => ({
+            ...workshop,
+            players: workshop.players.filter((p) =>
+                players.map((x) => x.nickname).includes(p.nickname),
+            ),
+        });
+
 export default {
     create,
     addPlayers,
+    removePlayers,
 };

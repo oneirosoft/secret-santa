@@ -12,8 +12,7 @@ const createWorkshop = ({
   body: z.infer<typeof createWorkshopSchema>;
 }) => {
   const { dollarLimit, players, name } = body;
-  const initial = Workshop.create({ dollarLimit, name });
-  const workshop = Workshop.addPlayers(players)(initial);
+  const workshop = Workshop.create({ dollarLimit, name, players });
   const result = repo.save(workshop);
 
   return Result.isSuccess(result)
