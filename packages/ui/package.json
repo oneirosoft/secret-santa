@@ -5,6 +5,9 @@
   "main": "./index.tsx",
   "module": "./index.tsx",
   "types": "./index.tsx",
+  "exports": {
+    ".": "./index.tsx"
+  },
   "files": [
     "index.tsx"
   ],

@@ -1,6 +1,5 @@
 import { Button } from "@secret-santa/ui";
 import "./index.css";
-import { message } from '@secret-santa/prelude'
 
 export function Home() {
   return (

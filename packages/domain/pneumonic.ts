@@ -1,3 +1,6 @@
+import z from "zod";
+import { Result, type ResultType } from "@secret-santa/prelude";
+
 const winterWords: string[] = [
   "winter",
   "snow",
@@ -99,23 +102,33 @@ const winterWords: string[] = [
   "sleds",
 ] as const;
 
-export type Pneumonic = {
-  readonly value: string;
-};
+export const pneumonicSchema = z.object({
+  value: z
+    .string()
+    .regex(/^(\w-?)+\w$/)
+    .readonly(),
+});
 
-const create = (n: number) =>({
-  value: 
+export type Pneumonic = z.infer<typeof pneumonicSchema>;
+
+const create = (n: number) => ({
+  value:
     Array.from({ length: n }, () =>
       Math.floor(Math.random() * winterWords.length),
     )
       .map((i) => winterWords[i])
       .reduce((acc, curr) => `${acc}-${curr}`)
-      ?.toLowerCase() ?? ""
-})
+      ?.toLowerCase() ?? "",
+});
 
-const from = (value: string): Pneumonic => ({ value })
+const from = (value: string): ResultType<Pneumonic> => {
+  const result = pneumonicSchema.safeParse({ value });
+  return result.success
+    ? Result.success(result.data)
+    : Result.error(`Could not create ${value} into a pneumonic`);
+};
 
 export default {
   create,
-  from
+  from,
 };

@@ -1,14 +1,20 @@
 {
   "name": "@secret-santa/prelude",
   "module": "index.ts",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.ts",
+    "./result": "./result.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
-  "type": "module",
   "dependencies": {
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "zod": "^4.1.13"
   }
 }

@@ -6,9 +6,11 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest",
+    "@secret-santa/data": "workspace:*",
     "@secret-santa/prelude": "workspace:*",
-    "@secret-santa/data": "workspace:*"
+    "@secret-santa/domain": "workspace:*",
+    "elysia": "latest",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@types/bun": "latest"
