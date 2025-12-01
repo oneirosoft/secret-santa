@@ -5,8 +5,12 @@ import { useState } from 'react'
 export function Home() {
   const [workshopCode, setWorkshopCode] = useState('')
   const [isCreating, setIsCreating] = useState(false)
+  const [isJoining, setIsJoining] = useState(false)
   const [createdWorkshop, setCreatedWorkshop] = useState<any>(null)
+  const [joinedWorkshop, setJoinedWorkshop] = useState<any>(null)
+  const [selectedPlayer, setSelectedPlayer] = useState('')
   const [createError, setCreateError] = useState('')
+  const [joinError, setJoinError] = useState('')
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [workshopName, setWorkshopName] = useState('')
   const [dollarLimit, setDollarLimit] = useState('50')
@@ -59,6 +63,38 @@ export function Home() {
     }
   }
 
+  const handleJoinWorkshop = async () => {
+    if (!workshopCode.trim()) {
+      setJoinError('Please enter a workshop code')
+      return
+    }
+
+    setIsJoining(true)
+    setJoinError('')
+    setJoinedWorkshop(null)
+    setSelectedPlayer('')
+    try {
+      const response = await fetch(
+        `http://localhost:3000/workshop/${workshopCode}`,
+        {
+          method: 'GET',
+        }
+      )
+
+      if (response.ok) {
+        const workshop = await response.json()
+        setJoinedWorkshop(workshop)
+      } else {
+        const error = await response.json()
+        setJoinError('Workshop not found. Please check the code and try again.')
+      }
+    } catch (error) {
+      setJoinError('Error joining workshop. Please try again.')
+    } finally {
+      setIsJoining(false)
+    }
+  }
+
   const addPlayer = () => {
     if (playerInput.trim() && !players.includes(playerInput.trim())) {
       setPlayers([...players, playerInput.trim()])
@@ -84,10 +120,58 @@ export function Home() {
       />
       <Button
         variant="primary"
-        onClick={() => alert('Join workshop feature coming soon!')}
+        onClick={handleJoinWorkshop}
+        disabled={isJoining}
       >
-        Join Existing Workshop
+        {isJoining ? 'Joining...' : 'Join Existing Workshop'}
       </Button>
+
+      {joinedWorkshop && (
+        <div className="workshop-result">
+          <h2>Workshop Found!</h2>
+          <p className="workshop-code">
+            Code:{' '}
+            <strong>
+              {typeof joinedWorkshop.id === 'object'
+                ? joinedWorkshop.id.value
+                : joinedWorkshop.id}
+            </strong>
+          </p>
+          <p>Name: {joinedWorkshop.name}</p>
+          <p>Dollar Limit: ${joinedWorkshop.dollarLimit}</p>
+          <p>Players: {joinedWorkshop.players.length}</p>
+
+          <div className="form-field">
+            <label>Select Your Player:</label>
+            <select
+              className="workshop-input"
+              value={selectedPlayer}
+              onChange={(e) => setSelectedPlayer(e.target.value)}
+            >
+              <option value="">Choose a player...</option>
+              {joinedWorkshop.players.map((player: any) => (
+                <option key={player.nickname} value={player.nickname}>
+                  {player.nickname}
+                </option>
+              ))}
+            </select>
+            {selectedPlayer && (
+              <p
+                style={{ marginTop: '1rem', color: '#165b33', fontWeight: 600 }}
+              >
+                You selected: {selectedPlayer}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {joinError && (
+        <div className="workshop-error">
+          <p>{joinError}</p>
+        </div>
+      )}
+
       <p>Or create a new workshop!</p>
 
       {!showCreateForm ? (
