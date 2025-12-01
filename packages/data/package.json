@@ -2,6 +2,12 @@
   "name": "@secret-santa/data",
   "module": "index.ts",
   "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.ts",
+    "./abstractions": "./abstractions.ts",
+    "./mock/repository.mock": "./mock/repository.mock.ts"
+  },
   "dependencies": {
     "@secret-santa/prelude": "workspace:*"
   },

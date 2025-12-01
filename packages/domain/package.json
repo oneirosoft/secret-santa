@@ -2,6 +2,14 @@
   "name": "@secret-santa/domain",
   "module": "index.ts",
   "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.ts",
+    "./player": "./player.ts",
+    "./pneumonic": "./pneumonic.ts",
+    "./workshop": "./workshop.ts",
+    "./match-maker": "./match-maker.ts"
+  },
   "dependencies": {
     "@secret-santa/prelude": "workspace:*",
     "zod": "^4.1.13"

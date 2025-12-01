@@ -1,6 +1,5 @@
 import { Button } from "@secret-santa/ui";
 import "./index.css";
-import { message } from '@secret-santa/prelude'
 
 import logo from "./logo.svg";
 import reactLogo from "./react.svg";
@@ -17,7 +16,7 @@ export function App() {
       <p>
         Edit <code>src/App.tsx</code> and save to test HMR
       </p>
-      <Button variant="primary" onClick={() => alert(message)}>
+      <Button variant="primary" onClick={() => alert("Hello from Secret Santa!")}>
         Shared UI Button
       </Button>
     </div>
