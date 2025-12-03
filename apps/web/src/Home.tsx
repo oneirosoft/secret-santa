@@ -1,36 +1,39 @@
-import { Button } from '@secret-santa/ui'
-import './index.css'
-import { useState } from 'react'
+import { Button } from "@secret-santa/ui";
+import "./index.css";
+import { useState } from "react";
+import config from "app-config.json";
 
 export function Home() {
-  const [workshopCode, setWorkshopCode] = useState('')
-  const [isCreating, setIsCreating] = useState(false)
-  const [isJoining, setIsJoining] = useState(false)
-  const [createdWorkshop, setCreatedWorkshop] = useState<any>(null)
-  const [joinedWorkshop, setJoinedWorkshop] = useState<any>(null)
-  const [selectedPlayer, setSelectedPlayer] = useState('')
-  const [createError, setCreateError] = useState('')
-  const [joinError, setJoinError] = useState('')
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [workshopName, setWorkshopName] = useState('')
-  const [dollarLimit, setDollarLimit] = useState('50')
-  const [playerInput, setPlayerInput] = useState('')
-  const [players, setPlayers] = useState<string[]>([])
+  const [workshopCode, setWorkshopCode] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
+  const [createdWorkshop, setCreatedWorkshop] = useState<any>(null);
+  const [joinedWorkshop, setJoinedWorkshop] = useState<any>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState("");
+  const [createError, setCreateError] = useState("");
+  const [joinError, setJoinError] = useState("");
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [workshopName, setWorkshopName] = useState("");
+  const [dollarLimit, setDollarLimit] = useState("50");
+  const [playerInput, setPlayerInput] = useState("");
+  const [players, setPlayers] = useState<string[]>([]);
+
+  const apiUrl = `${config.api}/workshop/create`;
 
   const handleCreateWorkshop = async () => {
     if (!workshopName.trim()) {
-      setCreateError('Please enter a workshop name')
-      return
+      setCreateError("Please enter a workshop name");
+      return;
     }
 
-    setIsCreating(true)
-    setCreateError('')
-    setCreatedWorkshop(null)
+    setIsCreating(true);
+    setCreateError("");
+    setCreatedWorkshop(null);
     try {
-      const response = await fetch('http://localhost:3000/workshop/create', {
-        method: 'PUT',
+      const response = await fetch(apiUrl, {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: workshopName,
@@ -41,70 +44,72 @@ export function Home() {
             wishlist: [],
           })),
         }),
-      })
+      });
 
       if (response.ok) {
-        const workshop = await response.json()
-        setCreatedWorkshop(workshop)
+        const workshop = await response.json();
+        setCreatedWorkshop(workshop);
         // Reset form
-        setShowCreateForm(false)
-        setWorkshopName('')
-        setDollarLimit('50')
-        setPlayers([])
+        setShowCreateForm(false);
+        setWorkshopName("");
+        setDollarLimit("50");
+        setPlayers([]);
       } else {
-        const error = await response.json()
-        console.error('Validation error:', error)
-        setCreateError(`Failed to create workshop: ${JSON.stringify(error)}`)
+        const error = await response.json();
+        console.error("Validation error:", error);
+        setCreateError(`Failed to create workshop: ${JSON.stringify(error)}`);
       }
     } catch (error) {
-      setCreateError('Error creating workshop. Please try again.')
+      setCreateError("Error creating workshop. Please try again.");
     } finally {
-      setIsCreating(false)
+      setIsCreating(false);
     }
-  }
+  };
 
   const handleJoinWorkshop = async () => {
     if (!workshopCode.trim()) {
-      setJoinError('Please enter a workshop code')
-      return
+      setJoinError("Please enter a workshop code");
+      return;
     }
 
-    setIsJoining(true)
-    setJoinError('')
-    setJoinedWorkshop(null)
-    setSelectedPlayer('')
+    setIsJoining(true);
+    setJoinError("");
+    setJoinedWorkshop(null);
+    setSelectedPlayer("");
     try {
       const response = await fetch(
         `http://localhost:3000/workshop/${workshopCode}`,
         {
-          method: 'GET',
-        }
-      )
+          method: "GET",
+        },
+      );
 
       if (response.ok) {
-        const workshop = await response.json()
-        setJoinedWorkshop(workshop)
+        const workshop = await response.json();
+        setJoinedWorkshop(workshop);
       } else {
-        const error = await response.json()
-        setJoinError('Workshop not found. Please check the code and try again.')
+        const error = await response.json();
+        setJoinError(
+          "Workshop not found. Please check the code and try again.",
+        );
       }
     } catch (error) {
-      setJoinError('Error joining workshop. Please try again.')
+      setJoinError("Error joining workshop. Please try again.");
     } finally {
-      setIsJoining(false)
+      setIsJoining(false);
     }
-  }
+  };
 
   const addPlayer = () => {
     if (playerInput.trim() && !players.includes(playerInput.trim())) {
-      setPlayers([...players, playerInput.trim()])
-      setPlayerInput('')
+      setPlayers([...players, playerInput.trim()]);
+      setPlayerInput("");
     }
-  }
+  };
 
   const removePlayer = (nickname: string) => {
-    setPlayers(players.filter((p) => p !== nickname))
-  }
+    setPlayers(players.filter((p) => p !== nickname));
+  };
 
   return (
     <div className="app">
@@ -123,16 +128,16 @@ export function Home() {
         onClick={handleJoinWorkshop}
         disabled={isJoining}
       >
-        {isJoining ? 'Joining...' : 'Join Existing Workshop'}
+        {isJoining ? "Joining..." : "Join Existing Workshop"}
       </Button>
 
       {joinedWorkshop && (
         <div className="workshop-result">
           <h2>Workshop Found!</h2>
           <p className="workshop-code">
-            Code:{' '}
+            Code:{" "}
             <strong>
-              {typeof joinedWorkshop.id === 'object'
+              {typeof joinedWorkshop.id === "object"
                 ? joinedWorkshop.id.value
                 : joinedWorkshop.id}
             </strong>
@@ -157,7 +162,7 @@ export function Home() {
             </select>
             {selectedPlayer && (
               <p
-                style={{ marginTop: '1rem', color: '#165b33', fontWeight: 600 }}
+                style={{ marginTop: "1rem", color: "#165b33", fontWeight: 600 }}
               >
                 You selected: {selectedPlayer}
               </p>
@@ -211,7 +216,7 @@ export function Home() {
                 className="workshop-input"
                 value={playerInput}
                 onChange={(e) => setPlayerInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && addPlayer()}
+                onKeyPress={(e) => e.key === "Enter" && addPlayer()}
               />
               <Button variant="secondary" onClick={addPlayer}>
                 Add
@@ -235,16 +240,16 @@ export function Home() {
               onClick={handleCreateWorkshop}
               disabled={isCreating}
             >
-              {isCreating ? 'Creating...' : 'Create Workshop'}
+              {isCreating ? "Creating..." : "Create Workshop"}
             </Button>
             <Button
               variant="secondary"
               onClick={() => {
-                setShowCreateForm(false)
-                setWorkshopName('')
-                setDollarLimit('50')
-                setPlayers([])
-                setCreateError('')
+                setShowCreateForm(false);
+                setWorkshopName("");
+                setDollarLimit("50");
+                setPlayers([]);
+                setCreateError("");
               }}
             >
               Cancel
@@ -257,9 +262,9 @@ export function Home() {
         <div className="workshop-result">
           <h2>Workshop Created!</h2>
           <p className="workshop-code">
-            Code:{' '}
+            Code:{" "}
             <strong>
-              {typeof createdWorkshop.id === 'object'
+              {typeof createdWorkshop.id === "object"
                 ? createdWorkshop.id.value
                 : createdWorkshop.id}
             </strong>
@@ -276,7 +281,7 @@ export function Home() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
