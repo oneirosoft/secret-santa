@@ -1,0 +1,109 @@
+:root {
+  font-family: 'Mountains of Christmas', Inter, system-ui, Avenir, Helvetica,
+    Arial, sans-serif;
+  line-height: 1.5;
+  color-scheme: light dark;
+  background-color: #bfe8ff;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  position: relative;
+}
+
+.snow,
+.snow::before,
+.snow::after {
+  position: fixed;
+  top: -10vh;
+  left: 0;
+  width: 100vw;
+  height: 110vh;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-image: radial-gradient(
+      4px 4px at 10px 10px,
+      rgba(255, 255, 255, 0.95) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      4px 4px at 50px 30px,
+      rgba(255, 255, 255, 0.9) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      6px 6px at 100px 70px,
+      rgba(255, 255, 255, 0.92) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      3px 3px at 140px 110px,
+      rgba(255, 255, 255, 0.95) 55%,
+      transparent 56%
+    ),
+    radial-gradient(
+      5px 5px at 180px 150px,
+      rgba(255, 255, 255, 0.98) 55%,
+      transparent 56%
+    );
+  background-size: 240px 240px;
+  background-position: 0 0, 50px 30px, 100px 70px, 140px 110px, 180px 150px;
+  animation: snowScroll 6s linear infinite;
+  animation-delay: 0s;
+  will-change: background-position;
+  z-index: 0;
+}
+
+.snow::before {
+  content: '';
+  animation: snowScroll 9s linear infinite;
+  animation-delay: 0s;
+  opacity: 0.8;
+  filter: blur(1px);
+  background-repeat: repeat;
+  background-position: 20px 20px, 70px 10px, 120px 50px, 160px 90px, 10px 130px;
+}
+
+.snow::after {
+  content: '';
+  animation: snowScroll 4s linear infinite;
+  animation-delay: 0s;
+  opacity: 0.6;
+  filter: blur(1.6px);
+  background-repeat: repeat;
+  background-position: 30px 0px, 0px 60px, 80px 20px, 120px 100px, 160px 40px;
+}
+
+@keyframes snowScroll {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 240px;
+  }
+}
+
+h1 {
+  font-size: 5.4em;
+  line-height: 1.1;
+  color: black;
+}
+
+p {
+  font-size: 1.4em;
+  color: black;
+}
+
+.app {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}

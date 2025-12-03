@@ -8,11 +8,15 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Home from './views/home/Home'
+import './index.css'
 
 const elem = document.getElementById('root')!
 const app = (
   <StrictMode>
-    <Home />
+    <div className="app">
+      <div className="snow" aria-hidden="true" />
+      <Home />
+    </div>
   </StrictMode>
 )
 

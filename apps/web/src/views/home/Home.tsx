@@ -106,8 +106,7 @@ const Home = () => {
   }
 
   return (
-    <div className="app">
-      <div className="snow" aria-hidden="true" />
+    <>
       <h1>Secret Santa</h1>
       <p>Already have a workshop code? Enter it here!</p>
       <Input
@@ -269,7 +268,7 @@ const Home = () => {
           <p>{createError}</p>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
