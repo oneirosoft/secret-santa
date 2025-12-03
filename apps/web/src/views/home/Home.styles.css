@@ -98,29 +98,6 @@ p {
   font-size: 1.4em;
   color: black;
 }
-.workshop-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1.1em;
-  font-family: 'Mountains of Christmas', Inter, system-ui, sans-serif;
-  border: 3px solid #165b33;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  background-color: white;
-  color: black;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
-}
-.workshop-input:focus {
-  border-color: #c41e3a;
-  box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15);
-}
-.workshop-input::placeholder {
-  color: #666;
-  opacity: 0.7;
-}
 .workshop-result {
   margin-top: 1.5rem;
   padding: 1.5rem;
@@ -184,36 +161,12 @@ p {
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
-.workshop-input,
-select.workshop-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1.1em;
-  font-family: 'Mountains of Christmas', Inter, system-ui, sans-serif;
-  border: 3px solid #165b33;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  background-color: white;
-  color: black;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
-}
-select.workshop-input {
-  appearance: none;
-  background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23165b33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e');
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.5em;
-  padding-right: 3rem;
-}
 .player-input-row {
   display: flex;
   gap: 0.5rem;
   align-items: center;
 }
-.player-input-row .workshop-input {
+.player-input-row .input {
   flex: 1;
   margin-bottom: 0;
 }

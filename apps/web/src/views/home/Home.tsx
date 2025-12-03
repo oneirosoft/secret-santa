@@ -1,4 +1,5 @@
 import Button from '../../components/button/Button'
+import Input, { Select } from '../../components/input/Input'
 import './Home.styles.css'
 import { useState } from 'react'
 import config from 'app-config.json'
@@ -109,10 +110,9 @@ const Home = () => {
       <div className="snow" aria-hidden="true" />
       <h1>Secret Santa</h1>
       <p>Already have a workshop code? Enter it here!</p>
-      <input
+      <Input
         type="text"
         placeholder="Enter workshop code"
-        className="workshop-input"
         value={workshopCode}
         onChange={(e) => setWorkshopCode(e.target.value)}
       />
@@ -141,8 +141,7 @@ const Home = () => {
 
           <div className="form-field">
             <label>Select Your Player:</label>
-            <select
-              className="workshop-input"
+            <Select
               value={selectedPlayer}
               onChange={(e) => setSelectedPlayer(e.target.value)}
             >
@@ -152,7 +151,7 @@ const Home = () => {
                   {player.nickname}
                 </option>
               ))}
-            </select>
+            </Select>
             {selectedPlayer && (
               <p
                 style={{ marginTop: '1rem', color: '#165b33', fontWeight: 600 }}
@@ -180,10 +179,9 @@ const Home = () => {
         <div className="create-workshop-form">
           <div className="form-field">
             <label>Workshop Name:</label>
-            <input
+            <Input
               type="text"
               placeholder="Enter workshop name"
-              className="workshop-input"
               value={workshopName}
               onChange={(e) => setWorkshopName(e.target.value)}
             />
@@ -191,10 +189,9 @@ const Home = () => {
 
           <div className="form-field">
             <label>Dollar Limit:</label>
-            <input
+            <Input
               type="number"
               placeholder="50"
-              className="workshop-input"
               value={dollarLimit}
               onChange={(e) => setDollarLimit(e.target.value)}
             />
@@ -203,10 +200,9 @@ const Home = () => {
           <div className="form-field">
             <label>Add Players:</label>
             <div className="player-input-row">
-              <input
+              <Input
                 type="text"
                 placeholder="Enter player nickname"
-                className="workshop-input"
                 value={playerInput}
                 onChange={(e) => setPlayerInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
