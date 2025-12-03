@@ -7,7 +7,7 @@
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import Home from './Home/Home'
+import Home from './views/home/Home'
 
 const elem = document.getElementById('root')!
 const app = (

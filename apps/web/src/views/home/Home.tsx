@@ -1,4 +1,4 @@
-import { Button } from '@secret-santa/ui'
+import Button from '../../components/button/Button'
 import './Home.styles.css'
 import { useState } from 'react'
 import config from 'app-config.json'
