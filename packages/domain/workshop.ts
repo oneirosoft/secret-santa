@@ -1,50 +1,61 @@
 import z from "zod";
 import { playerSchema, type Player } from "./player";
 import Pn, { pneumonicSchema } from "./pneumonic";
+import matchMaker from "./match-maker";
+import { Result } from "@secret-santa/prelude";
 
 export const workshopSchema = z.object({
-    id: pneumonicSchema,
-    name: z.string(),
-    dollarLimit: z.number(),
-    players: z.array(playerSchema),
+  id: pneumonicSchema.readonly(),
+  name: z.string().readonly(),
+  dollarLimit: z.number().readonly(),
+  players: z.array(playerSchema).readonly(),
+  pairs: z.array(z.tuple([playerSchema, playerSchema])).readonly(),
 });
 
 export type Workshop = z.infer<typeof workshopSchema>;
 
 const create = ({
-    dollarLimit,
-    name,
-    players,
-}: Omit<Workshop, "id">): Workshop => ({
-    id: Pn.create(5),
-    name,
-    dollarLimit,
-    players,
+  dollarLimit,
+  name,
+  players,
+}: Omit<Workshop, "id" | "pairs">): Workshop => ({
+  id: Pn.create(5),
+  name,
+  dollarLimit,
+  players,
+  pairs: [],
 });
 
 const addPlayers =
-    (players: Player[]) =>
-        (workshop: Workshop): Workshop => ({
-            ...workshop,
-            players: [
-                ...workshop.players,
-                ...players.filter(
-                    (p) => !workshop.players.map((p) => p.nickname).includes(p.nickname),
-                ),
-            ],
-        });
+  (players: Player[]) =>
+  (workshop: Workshop): Workshop => ({
+    ...workshop,
+    players: [
+      ...workshop.players,
+      ...players.filter(
+        (p) => !workshop.players.map((p) => p.nickname).includes(p.nickname),
+      ),
+    ],
+  });
 
 const removePlayers =
-    (players: Player[]) =>
-        (workshop: Workshop): Workshop => ({
-            ...workshop,
-            players: workshop.players.filter((p) =>
-                players.map((x) => x.nickname).includes(p.nickname),
-            ),
-        });
+  (players: Player[]) =>
+  (workshop: Workshop): Workshop => ({
+    ...workshop,
+    players: workshop.players.filter((p) =>
+      players.map((x) => x.nickname).includes(p.nickname),
+    ),
+  });
+
+const matchPlayers = (workshop: Workshop): Workshop =>
+  matchMaker.producePairs(workshop.players).match(
+    (pairs) => ({ ...workshop, pairs }),
+    () => workshop,
+  );
 
 export default {
-    create,
-    addPlayers,
-    removePlayers,
+  create,
+  addPlayers,
+  removePlayers,
+  matchPlayers,
 };

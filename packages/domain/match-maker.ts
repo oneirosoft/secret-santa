@@ -4,7 +4,7 @@ import { Result, type ResultType } from "@secret-santa/prelude";
 type PlayerPair = [Player, Player];
 type PlayerPairs = PlayerPair[];
 
-const producePairs = (players: Player[]): ResultType<PlayerPairs> => {
+const producePairs = (players: readonly Player[]): ResultType<PlayerPairs> => {
   if (players.length === 0) return Result.success([]);
   if (players.length === 1)
     return Result.error("Need to have 2 or more players for proper pairing");
