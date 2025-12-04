@@ -9,8 +9,8 @@
     "start": "NODE_ENV=production bun src/index.ts"
   },
   "dependencies": {
-    "@secret-santa/ui": "workspace:*",
     "@secret-santa/prelude": "workspace:*",
+    "@secret-santa/ui": "workspace:*",
     "react": "^19",
     "react-dom": "^19"
   },

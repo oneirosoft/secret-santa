@@ -1,26 +1,26 @@
-import { Button } from "@secret-santa/ui";
-import "./index.css";
+/**
+ * This file is the entry point for the React app, it sets up the root
+ * element and renders the App component to the DOM.
+ *
+ * It is included in `src/index.html`.
+ */
 
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import Home from './views/home/Home'
 
-export function App() {
-  return (
-    <div className="app">
-      <div className="logo-container">
-        <img src={logo} alt="Bun Logo" className="logo bun-logo" />
-        <img src={reactLogo} alt="React Logo" className="logo react-logo" />
-      </div>
+const elem = document.getElementById('root')!
+const app = (
+  <StrictMode>
+    <Home />
+  </StrictMode>
+)
 
-      <h1>Bun + React</h1>
-      <p>
-        Edit <code>src/App.tsx</code> and save to test HMR
-      </p>
-      <Button variant="primary" onClick={() => alert("Hello from Secret Santa!")}>
-        Shared UI Button
-      </Button>
-    </div>
-  );
+if (import.meta.hot) {
+  // With hot module reloading, `import.meta.hot.data` is persisted.
+  const root = (import.meta.hot.data.root ??= createRoot(elem))
+  root.render(app)
+} else {
+  // The hot module reloading API is not available in production.
+  createRoot(elem).render(app)
 }
-
-export default App;
