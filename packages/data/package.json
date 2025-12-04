@@ -6,9 +6,11 @@
   "exports": {
     ".": "./index.ts",
     "./abstractions": "./abstractions.ts",
-    "./mock/repository.mock": "./mock/repository.mock.ts"
+    "./mock/repository.mock": "./mock/repository.mock.ts",
+    "./azure/repository.azure": "./azure/repository.azure.ts"
   },
   "dependencies": {
+    "@azure/data-tables": "^13.3.2",
     "@secret-santa/prelude": "workspace:*"
   },
   "devDependencies": {

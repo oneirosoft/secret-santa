@@ -2,22 +2,11 @@ import { describe, expect, test } from "bun:test";
 import Result, { type ResultType } from "./result";
 
 describe("Result", () => {
-  describe("then", () => {
+  describe("flatMap", () => {
     test("works with function returning ResultType<R>", () => {
       const initial: ResultType<number> = Result.success(5);
       
-      const doubled = Result.then((x: number) => Result.success(x * 2))(initial);
-      
-      expect(Result.isSuccess(doubled)).toBe(true);
-      if (Result.isSuccess(doubled)) {
-        expect(doubled.value).toBe(10);
-      }
-    });
-
-    test("works with function returning R directly", () => {
-      const initial: ResultType<number> = Result.success(5);
-      
-      const doubled = Result.then((x: number) => x * 2)(initial);
+      const doubled = Result.flatMap((x: number) => Result.success(x * 2))(initial);
       
       expect(Result.isSuccess(doubled)).toBe(true);
       if (Result.isSuccess(doubled)) {
@@ -28,18 +17,7 @@ describe("Result", () => {
     test("propagates errors when fn returns ResultType<R>", () => {
       const initial: ResultType<number> = Result.error("initial error");
       
-      const doubled = Result.then((x: number) => Result.success(x * 2))(initial);
-      
-      expect(Result.isSuccess(doubled)).toBe(false);
-      if (!Result.isSuccess(doubled)) {
-        expect(doubled.message).toBe("initial error");
-      }
-    });
-
-    test("propagates errors when fn returns R directly", () => {
-      const initial: ResultType<number> = Result.error("initial error");
-      
-      const doubled = Result.then((x: number) => x * 2)(initial);
+      const doubled = Result.flatMap((x: number) => Result.success(x * 2))(initial);
       
       expect(Result.isSuccess(doubled)).toBe(false);
       if (!Result.isSuccess(doubled)) {
@@ -50,7 +28,7 @@ describe("Result", () => {
     test("handles fn that returns an error result", () => {
       const initial: ResultType<number> = Result.success(5);
       
-      const result = Result.then((x: number) => 
+      const result = Result.flatMap((x: number) => 
         x > 0 ? Result.error("number too large") : Result.success(x)
       )(initial);
       
@@ -59,12 +37,36 @@ describe("Result", () => {
         expect(result.message).toBe("number too large");
       }
     });
+  });
 
-    test("can chain multiple then calls with mixed return types", () => {
+  describe("map", () => {
+    test("works with function returning R directly", () => {
       const initial: ResultType<number> = Result.success(5);
       
-      const result = Result.then((x: number) => x * 2)(
-        Result.then((x: number) => Result.success(x + 3))(initial)
+      const doubled = Result.map((x: number) => x * 2)(initial);
+      
+      expect(Result.isSuccess(doubled)).toBe(true);
+      if (Result.isSuccess(doubled)) {
+        expect(doubled.value).toBe(10);
+      }
+    });
+
+    test("propagates errors when fn returns R directly", () => {
+      const initial: ResultType<number> = Result.error("initial error");
+      
+      const doubled = Result.map((x: number) => x * 2)(initial);
+      
+      expect(Result.isSuccess(doubled)).toBe(false);
+      if (!Result.isSuccess(doubled)) {
+        expect(doubled.message).toBe("initial error");
+      }
+    });
+
+    test("can chain flatMap and map calls with mixed return types", () => {
+      const initial: ResultType<number> = Result.success(5);
+      
+      const result = Result.map((x: number) => x * 2)(
+        Result.flatMap((x: number) => Result.success(x + 3))(initial)
       );
       
       expect(Result.isSuccess(result)).toBe(true);

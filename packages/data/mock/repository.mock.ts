@@ -1,26 +1,39 @@
 import type { IRepository } from "../abstractions";
-import type { WorkshopType, PneumonicType } from '@secret-santa/domain'
-import { Result, type ResultType } from '@secret-santa/prelude'
+import type { WorkshopType, PneumonicType } from "@secret-santa/domain";
+import { Result } from "@secret-santa/prelude";
 
-const _workshops: WorkshopType[] = []
+const _workshopStore = (() => {
+    const workshops = new Map<PneumonicType, WorkshopType>();
+    return {
+        add: (workshop: WorkshopType) => workshops.set(workshop.id, workshop),
+        remove: (id: PneumonicType) => workshops.delete(id),
+        get: (id: PneumonicType) => workshops.get(id),
+        all: () => workshops.values(),
+    };
+})();
 
 const repository: IRepository<WorkshopType, PneumonicType> = {
     save: (value: WorkshopType) => {
-        _workshops.push(value)
-        return Result.success(value)
+        _workshopStore.add(value);
+        return Promise.resolve(Result.success(value));
     },
-    find: (id: PneumonicType): ResultType<WorkshopType> => {
-        const value = _workshops.find(w => w.id.value === id.value)
-        return value ? Result.success(value) : Result.error(`Workshop ${id} was not found`)
+    find: (id: PneumonicType) => {
+        const value = _workshopStore.get(id);
+        const result = value
+            ? Result.success(value)
+            : Result.error<WorkshopType>(`Workshop ${id} was not found`);
+        return Promise.resolve(result);
     },
-    all: () => Result.success(_workshops),
-    delete: (id: PneumonicType): ResultType<WorkshopType> => {
-        const index = _workshops.findIndex(w => w.id === id)
-        if (index === -1) return Result.error(`Workshop ${id} was not found`)
-        const value = _workshops[index]!
-        _workshops.splice(index, 1)
-        return Result.success(value)
-    }
-}
+    all: () => Promise.resolve(Result.success([..._workshopStore.all()])),
+    delete: (id: PneumonicType) => {
+        const value = _workshopStore.get(id);
+        if (!value)
+            return Promise.resolve(
+                Result.error<WorkshopType>(`Workshop ${id} was not found`),
+            );
+        _workshopStore.remove(id);
+        return Promise.resolve(Result.success(value));
+    },
+};
 
-export default repository
+export default repository;

@@ -9,7 +9,10 @@ export type WishlistItem = z.infer<typeof wishlistItemSchema>;
 
 export const playerSchema = z.object({
   nickname: z.string(),
-  tags: z.set(z.string()),
+  tags: z.preprocess(
+    (val) => (val instanceof Set ? val : new Set(val as string[])),
+    z.set(z.string()),
+  ),
   wishlist: z.array(wishlistItemSchema),
 });
 
@@ -17,10 +20,10 @@ export type Player = z.infer<typeof playerSchema>;
 
 type CreatePlayer = Omit<Player, "wishlist">;
 
-const create = ({ nickname }: CreatePlayer): Player => ({
+const create = ({ nickname, tags }: CreatePlayer): Player => ({
   wishlist: [],
   nickname,
-  tags: new Set(),
+  tags,
 });
 
 const addItem =
