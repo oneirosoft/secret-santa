@@ -13,7 +13,13 @@
     "dev:api": "bun run --cwd apps/api dev",
     "build:web": "bun run --cwd apps/web build",
     "start:web": "bun run --cwd apps/web start",
-    "check:types": "tsc --pretty --noEmit -p tsconfig.json"
+    "check:types": "tsc --pretty --noEmit -p tsconfig.json",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:api": "docker-compose up -d api",
+    "docker:rebuild": "docker-compose up -d --build"
   },
   "devDependencies": {
     "@types/bun": "latest",
