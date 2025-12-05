@@ -1,0 +1,68 @@
+.join-workshop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-field label {
+  display: block;
+  font-size: 1.2em;
+  color: #165b33;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.workshop-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 3px solid #165b33;
+  border-radius: 12px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.workshop-result h2 {
+  font-size: 2em;
+  color: #165b33;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.workshop-result p {
+  margin: 0.5rem 0;
+  font-size: 1.2em;
+}
+
+.workshop-code {
+  font-size: 1.4em !important;
+  color: #c41e3a;
+}
+
+.workshop-code strong {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.workshop-error {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(196, 30, 58, 0.1);
+  border: 2px solid #c41e3a;
+  border-radius: 8px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.workshop-error p {
+  color: #c41e3a;
+  font-weight: 600;
+  margin: 0;
+}

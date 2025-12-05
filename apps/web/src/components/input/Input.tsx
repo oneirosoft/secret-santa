@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import './Input.styles.css'
 
 type InputVariant = 'text' | 'number' | 'select'
@@ -9,12 +9,26 @@ export type InputProps = ComponentPropsWithoutRef<'input'> & {
 
 export type SelectProps = ComponentPropsWithoutRef<'select'>
 
-const Input = ({ className = '', ...props }: InputProps) => {
-  return <input {...props} className={`input ${className}`} />
-}
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className = '', ...props }, ref) => {
+    return <input ref={ref} {...props} className={`input ${className}`} />
+  }
+)
 
-export const Select = ({ className = '', ...props }: SelectProps) => {
-  return <select {...props} className={`input input-select ${className}`} />
-}
+Input.displayName = 'Input'
+
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  ({ className = '', ...props }, ref) => {
+    return (
+      <select
+        ref={ref}
+        {...props}
+        className={`input input-select ${className}`}
+      />
+    )
+  }
+)
+
+Select.displayName = 'Select'
 
 export default Input

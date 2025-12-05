@@ -4,8 +4,7 @@
   padding: 0.5rem 1.5rem;
   cursor: pointer;
   transition: transform 150ms ease, box-shadow 150ms ease;
-  border: none;
-  outline: none;
+  border: 3px solid transparent;
 }
 
 .button-primary {

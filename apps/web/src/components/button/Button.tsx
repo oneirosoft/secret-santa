@@ -13,7 +13,20 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   return (
-    <button {...props} className={`button button-${variant} ${className}`} />
+    <button
+      {...props}
+      className={`button button-${variant} ${className}`}
+      onFocus={(e) => {
+        e.currentTarget.style.outline = '2px solid #c41e3a'
+        e.currentTarget.style.outlineOffset = '2px'
+        props.onFocus?.(e)
+      }}
+      onBlur={(e) => {
+        e.currentTarget.style.outline = ''
+        e.currentTarget.style.outlineOffset = ''
+        props.onBlur?.(e)
+      }}
+    />
   )
 }
 
