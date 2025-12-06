@@ -44,11 +44,11 @@ const updateWishlist = async ({
   body,
   repo
 }: {
-  params: { workshopId: string, playerNickname: string };
+  params: { id: string, playerNickname: string };
   body: z.infer<typeof wishlistItemSchema>[];
   repo: IRepository<WorkshopType, PneumonicType>;
 }) => {
-  const pneumonic = Pneumonic.from(params.workshopId)
+  const pneumonic = Pneumonic.from(params.id)
   if(Result.isError(pneumonic)) return status(400, pneumonic)
   const workshop = await repo.find(pneumonic.value)
   if (Result.isError(workshop)) return status(404, workshop)
@@ -69,8 +69,8 @@ const workshopEndpoints = (repo: IRepository<WorkshopType, PneumonicType>) =>
     .group("/workshop", (g) =>
       g
         .put("/create", createWorkshop, { body: createWorkshopSchema })
-        .patch("/:id/player/:playerId/update-wishlist", updateWishlist, { 
-          params: z.object({ workshopId: z.string(), playerNickname: z.string() }),
+        .patch("/:id/player/:playerNickname/update-wishlist", updateWishlist, { 
+          params: z.object({ id: z.string(), playerNickname: z.string() }),
           body: wishlistItemSchema.array(), 
         })
         .get("/:id", findWorkshop),

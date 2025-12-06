@@ -9,14 +9,17 @@
     "start": "NODE_ENV=production bun src/index.ts"
   },
   "dependencies": {
-    "@secret-santa/ui": "workspace:*",
+    "@elysiajs/eden": "^1.4.5",
     "@secret-santa/prelude": "workspace:*",
+    "@secret-santa/api": "workspace:*",
+    "@secret-santa/ui": "workspace:*",
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/bun": "latest"
+    "elysia": "^1.4.18"
   }
 }
