@@ -1,15 +1,17 @@
-import { Workshop, workshopSchema, Pneumonic } from "@secret-santa/domain";
+import { Workshop, workshopSchema, Pneumonic, wishlistItemSchema, WorkshopType, PneumonicType } from "@secret-santa/domain";
 import z from "zod";
 import { Result } from "@secret-santa/prelude";
-import repo from "@secret-santa/data/mock/repository.mock";
+import type { IRepository } from "@secret-santa/data";
 import Elysia, { status } from "elysia";
 
 const createWorkshopSchema = workshopSchema.omit({ id: true });
 
 const createWorkshop = async ({
   body,
+  repo
 }: {
   body: z.infer<typeof createWorkshopSchema>;
+  repo: IRepository<WorkshopType, PneumonicType>;
 }) => {
   const { dollarLimit, players, name } = body;
   const workshop = Workshop.create({ dollarLimit, name, players });
@@ -20,7 +22,13 @@ const createWorkshop = async ({
     : status(404, result);
 };
 
-const findWorkshop = async ({ params: { id } }: { params: { id: string } }) => {
+const findWorkshop = async ({ 
+  params: { id },
+  repo
+}: { 
+  params: { id: string };
+  repo: IRepository<WorkshopType, PneumonicType>;
+}) => {
   const pneumonic = Pneumonic.from(id);
   if (!Result.isSuccess(pneumonic)) return status(400, pneumonic);
 
@@ -31,10 +39,41 @@ const findWorkshop = async ({ params: { id } }: { params: { id: string } }) => {
     : status(404, result);
 };
 
-const workshopEndpoints = new Elysia().group("/workshop", (g) =>
-  g
-    .put("/create", createWorkshop, { body: createWorkshopSchema })
-    .get("/:id", findWorkshop),
-);
+const updateWishlist = async ({
+  params,
+  body,
+  repo
+}: {
+  params: { workshopId: string, playerNickname: string };
+  body: z.infer<typeof wishlistItemSchema>[];
+  repo: IRepository<WorkshopType, PneumonicType>;
+}) => {
+  const pneumonic = Pneumonic.from(params.workshopId)
+  if(Result.isError(pneumonic)) return status(400, pneumonic)
+  const workshop = await repo.find(pneumonic.value)
+  if (Result.isError(workshop)) return status(404, workshop)
+  
+  const updatedWorkshop = Workshop.updatePlayerWishlist(params.playerNickname, body)(workshop.value)
+  if (Result.isError(updatedWorkshop)) return status(404, updatedWorkshop)
+  
+  const saveResult = await repo.save(updatedWorkshop.value)
+  
+  return Result.isSuccess(saveResult)
+    ? status(200, saveResult.value)
+    : status(500, saveResult)
+}
+
+const workshopEndpoints = (repo: IRepository<WorkshopType, PneumonicType>) => 
+  new Elysia()
+    .decorate('repo', repo)
+    .group("/workshop", (g) =>
+      g
+        .put("/create", createWorkshop, { body: createWorkshopSchema })
+        .patch("/:id/player/:playerId/update-wishlist", updateWishlist, { 
+          params: z.object({ workshopId: z.string(), playerNickname: z.string() }),
+          body: wishlistItemSchema.array(), 
+        })
+        .get("/:id", findWorkshop),
+    );
 
 export default workshopEndpoints;
