@@ -1,0 +1,77 @@
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 420px;
+  padding: 2.5em 3em;
+  border: 3px solid var(--christmas-green);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 0, 0, 0.03), rgba(0, 128, 0, 0.03));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.corner-snowflake {
+  position: absolute;
+  font-size: 40px;
+  opacity: 0.8;
+}
+
+.corner-snowflake.top-left {
+  top: -20px;
+  left: -20px;
+  color: var(--christmas-red);
+}
+
+.corner-snowflake.top-right {
+  top: -20px;
+  right: -20px;
+  color: var(--christmas-green);
+}
+
+.corner-snowflake.bottom-left {
+  bottom: -20px;
+  left: -20px;
+  color: var(--christmas-red);
+}
+
+.corner-snowflake.bottom-right {
+  bottom: -20px;
+  right: -20px;
+  color: var(--christmas-green);
+}
+
+.countdown h2 {
+  background: linear-gradient(90deg, var(--christmas-red), var(--christmas-green), var(--christmas-red));
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 3s ease infinite;
+  margin: 0;
+}
+
+.countdown .timer-days {
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
+  font-size: 2.8em;
+  font-weight: 600;
+  color: var(--christmas-green);
+  margin-bottom: 0.2em;
+}
+
+.countdown .timer {
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
+  font-size: 2em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--christmas-green);
+}
+
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
