@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap');
+:root {
+  --christmas-red: #dc2626;
+  --christmas-green: #16a34a;
+}
 
 body {
   background-color: #bfe8ff;
@@ -12,6 +15,10 @@ body {
 
 h1 {
   font-size: 4em;
+}
+
+h2 {
+  font-size: 2.8em
 }
 
 body::before,
