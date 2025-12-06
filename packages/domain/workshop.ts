@@ -1,8 +1,8 @@
 import z from "zod";
-import { playerSchema, type Player } from "./player";
+import { playerSchema, type Player, type WishlistItem } from "./player";
 import Pn, { pneumonicSchema } from "./pneumonic";
 import matchMaker from "./match-maker";
-import { Result } from "@secret-santa/prelude";
+import { Result, type ResultType } from "@secret-santa/prelude";
 
 export const workshopSchema = z.object({
   id: pneumonicSchema.readonly(),
@@ -53,9 +53,26 @@ const matchPlayers = (workshop: Workshop): Workshop =>
     () => workshop,
   );
 
+const updatePlayerWishlist =
+  (nickname: string, wishlist: WishlistItem[]) =>
+  (workshop: Workshop): ResultType<Workshop> => {
+    const playerExists = workshop.players.some(p => p.nickname === nickname);
+    
+    if (!playerExists) {
+      return Result.error('Player not found in workshop');
+    }
+    
+    const updatedPlayers = workshop.players.map(p =>
+      p.nickname === nickname ? { ...p, wishlist } : p
+    );
+    
+    return Result.success({ ...workshop, players: updatedPlayers });
+  };
+
 export default {
   create,
   addPlayers,
   removePlayers,
   matchPlayers,
+  updatePlayerWishlist,
 };

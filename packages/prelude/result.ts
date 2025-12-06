@@ -21,6 +21,8 @@ const isSuccess = <T>(
   value: ResultType<T>,
 ): value is Success<T> & ResultBase<T> => value.type === "success";
 
+const isError = <T>(value: ResultType<T>): value is Error & ResultBase<T> => value.type === 'error'
+
 const flatMap =
   <T, R>(fn: (value: T) => ResultType<R>) =>
     (result: ResultType<T>): ResultType<R> => {
@@ -63,5 +65,6 @@ export default {
   map,
   flatMap,
   isSuccess,
+  isError,
   match,
 };
