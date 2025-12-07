@@ -1,0 +1,31 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1em 2em;
+  z-index: 100;
+}
+
+.home-link {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--christmas-red);
+  border-radius: 2em;
+  padding: 0.5em 1em;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--christmas-red);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-link:hover {
+  background-color: var(--christmas-red);
+  color: white;
+  transform: translateX(-4px);
+}
+
+.home-link:active {
+  transform: translateX(-4px) scale(0.98);
+}

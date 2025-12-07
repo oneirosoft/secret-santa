@@ -7,6 +7,7 @@ body {
   background-color: #bfe8ff;
   min-height: 100vh;
   margin: 0;
+  padding-top: 4em;
   overflow: hidden;
   font-family: 'Mountains of Christmas', Inter, system-ui, Avenir, Helvetica,
     Arial, sans-serif;
