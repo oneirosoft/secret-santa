@@ -1,0 +1,44 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1em 0.5em;
+}
+
+.input-group, .full-width {
+    width: 100%;
+}
+
+.input-group label {
+    font-weight: 500;
+}
+
+@keyframes gradient-flow {
+    0% {
+        background: linear-gradient(white, white) padding-box, linear-gradient(0deg, var(--christmas-red), var(--christmas-green)) border-box;
+    }
+    25% {
+        background: linear-gradient(white, white) padding-box, linear-gradient(90deg, var(--christmas-red), var(--christmas-green)) border-box;
+    }
+    50% {
+        background: linear-gradient(white, white) padding-box, linear-gradient(180deg, var(--christmas-red), var(--christmas-green)) border-box;
+    }
+    75% {
+        background: linear-gradient(white, white) padding-box, linear-gradient(270deg, var(--christmas-red), var(--christmas-green)) border-box;
+    }
+    100% {
+        background: linear-gradient(white, white) padding-box, linear-gradient(360deg, var(--christmas-red), var(--christmas-green)) border-box;
+    }
+}
+
+.input-group input {
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 2em;
+}
+
+.input-group input:focus {
+    outline: none;
+    background: linear-gradient(white, white) padding-box, linear-gradient(0deg, var(--christmas-red), var(--christmas-green)) border-box;
+    animation: gradient-flow 8s linear infinite;
+}
