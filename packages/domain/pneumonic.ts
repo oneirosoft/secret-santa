@@ -111,7 +111,7 @@ export const pneumonicSchema = z.object({
 
 export type Pneumonic = z.infer<typeof pneumonicSchema>;
 
-const create = (n: number) => ({
+const create = (n: number): Pneumonic => ({
   value:
     Array.from({ length: n }, () =>
       Math.floor(Math.random() * winterWords.length),

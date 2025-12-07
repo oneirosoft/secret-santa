@@ -29,6 +29,7 @@
       "dependencies": {
         "@elysiajs/eden": "^1.4.5",
         "@secret-santa/api": "workspace:*",
+        "@secret-santa/domain": "workspace:*",
         "@secret-santa/prelude": "workspace:*",
         "@secret-santa/ui": "workspace:*",
         "date-fns": "^4.1.0",
