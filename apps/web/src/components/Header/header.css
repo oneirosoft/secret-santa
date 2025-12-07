@@ -13,8 +13,8 @@
   border-radius: 2em;
   padding: 0.5em 1em;
   font-family: inherit;
-  font-size: 0.9em;
-  font-weight: 500;
+  font-size: 1.1em;
+  font-weight: 600;
   color: var(--christmas-red);
   cursor: pointer;
   transition: all 0.2s ease;
