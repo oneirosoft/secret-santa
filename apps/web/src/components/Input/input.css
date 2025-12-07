@@ -17,6 +17,7 @@
 
 .input-group label {
     font-weight: 500;
+    font-family: 'Mountains of Christmas', sans-serif;
 }
 
 @keyframes rotate-gradient {
@@ -32,6 +33,7 @@
     background: white;
     transition: transform 0.3s ease;
     --angle: 0deg;
+    font-family: 'Mountains of Christmas', sans-serif;
 }
 
 .input-group input:focus {

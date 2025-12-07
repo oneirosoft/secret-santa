@@ -15,7 +15,7 @@ const PhraseInput = ({ onClick }: PhraseInput) => {
     }
     return (
         <div className="phrase-input">
-            <Input name='workshop-phrase' ref={inputRef} type='text' fullWidth label='Workshop Phrase' />
+            <Input name='workshop-phrase' ref={inputRef} type='text' fullWidth label='Workshop Phrase' placeholder='Example: jingle-all-the-way' />
             <Button onClick={handleClick}>Enter Workshop</Button>
         </div>
     )

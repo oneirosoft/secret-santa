@@ -6,8 +6,13 @@
     gap: 1rem;
 }
 
+.phrase-input input {
+    font-size: 1.2rem;
+}
+
 .phrase-input button {
     white-space: nowrap;
     height: fit-content;
     margin-bottom: 0.9em;
+    font-size: 1.2rem;
 }
