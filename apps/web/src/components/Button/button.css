@@ -1,0 +1,64 @@
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    border: 2px solid;
+    border-radius: 2em;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: white;
+    will-change: transform;
+    --angle: 0deg;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button-primary {
+    color: var(--christmas-red);
+    border-color: var(--christmas-red);
+}
+
+.button-secondary {
+    color: var(--christmas-green);
+    border-color: var(--christmas-green);
+}
+
+@keyframes rotate-gradient {
+    to {
+        --angle: 360deg;
+    }
+}
+
+.button:hover,
+.button:focus {
+    outline: none;
+    transform: scale(1.1);
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(white, white) padding-box,
+        linear-gradient(var(--angle), var(--christmas-red), var(--christmas-green), var(--christmas-red)) border-box;
+    animation: rotate-gradient 4s linear infinite;
+}
+
+.button:hover:active,
+.button:focus:active {
+    transform: scale(0.98);
+}
+
+.button-primary:hover,
+.button-primary:focus {
+    color: var(--christmas-red);
+}
+
+.button-secondary:hover,
+.button-secondary:focus {
+    color: var(--christmas-green);
+}

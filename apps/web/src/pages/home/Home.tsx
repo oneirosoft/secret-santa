@@ -1,11 +1,13 @@
 
 import Countdown from './Countdown'
-import Input from '@/components/Input';
+import Button from '@/components/Button'
 import './home.css';
+import PhraseInput from './PhraseInput';
 
 const Home = () => {
   return <div className='home'><h1>Secret Santa</h1>
-  <Input name='workshop-phrase' type='text' fullWidth label='Workshop Phrase' />
+  <PhraseInput />
+  <Button variant='secondary'>Create Workshop</Button>
   <Countdown /></div>
 }
 
