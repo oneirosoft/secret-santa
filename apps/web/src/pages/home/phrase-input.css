@@ -1,0 +1,13 @@
+.phrase-input {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.phrase-input button {
+    white-space: nowrap;
+    height: fit-content;
+    margin-bottom: 0.9em;
+}
