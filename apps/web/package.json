@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@elysiajs/eden": "^1.4.5",
-    "@secret-santa/ui": "workspace:*",
-    "@secret-santa/prelude": "workspace:*",
     "@secret-santa/api": "workspace:*",
     "@secret-santa/domain": "workspace:*",
+    "@secret-santa/prelude": "workspace:*",
+    "@secret-santa/ui": "workspace:*",
+    "@tanstack/react-query": "^5.90.12",
     "date-fns": "^4.1.0",
     "react": "^19",
     "react-dom": "^19",

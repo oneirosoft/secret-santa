@@ -7,44 +7,6 @@
   gap: 2em;
 }
 
-.create-workshop .pneumonic-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5em;
-}
-
-.create-workshop .pneumonic {
-  color: var(--christmas-red);
-  margin: 0;
-  font-size: 1.5em;
-  font-family: inherit;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 2px solid var(--christmas-red);
-  border-radius: 8px;
-  padding: 0.75em 1.5em;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.create-workshop .pneumonic:hover {
-  background-color: var(--christmas-red);
-  color: white;
-  transform: scale(1.02);
-}
-
-.create-workshop .pneumonic:active {
-  transform: scale(0.98);
-}
-
-.create-workshop .pneumonic-help {
-  margin: 0;
-  font-size: 0.85em;
-  color: rgba(0, 0, 0, 0.6);
-  font-style: italic;
-}
-
 .players-table {
   width: 100%;
   border-collapse: collapse;
