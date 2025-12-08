@@ -19,7 +19,8 @@ const createWorkshop = async ({
     ...p,
     tags: [...new Set(p.tags)]
   }));
-  const workshop = Workshop.create({ id, dollarLimit, name, players: uniquePlayers });
+  let workshop = Workshop.create({ id, dollarLimit, name, players: uniquePlayers });
+  workshop = Workshop.matchPlayers(workshop);
   const result = await repo.save(workshop);
 
   return Result.isSuccess(result)

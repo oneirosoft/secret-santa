@@ -35,15 +35,13 @@ const WorkshopPage = () => {
       {workshop.pairs.length > 0 && (
         <>
           <h2>Gift Pairs</h2>
-          <div className='pairs'>
+          <ul className='pairs-list'>
             {workshop.pairs.map((pair: any, index: number) => (
-              <div key={index} className='pair'>
-                <span>{pair[0].nickname}</span>
-                <span>→</span>
-                <span>{pair[1].nickname}</span>
-              </div>
+              <li key={index}>
+                {pair[0].nickname} <span className='arrow'>→</span> {pair[1].nickname}
+              </li>
             ))}
-          </div>
+          </ul>
         </>
       )}
     </div>
