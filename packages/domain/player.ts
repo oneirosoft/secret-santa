@@ -9,10 +9,7 @@ export type WishlistItem = z.infer<typeof wishlistItemSchema>;
 
 export const playerSchema = z.object({
   nickname: z.string(),
-  tags: z.preprocess(
-    (val) => (val instanceof Set ? val : new Set(val as string[])),
-    z.set(z.string()),
-  ),
+  tags: z.array(z.string()),
   wishlist: z.array(wishlistItemSchema),
 });
 
@@ -42,19 +39,17 @@ const removeItem =
 
 const addTag =
   (tag: string) =>
-    (player: Player): Player => {
-      const newTags = new Set(player.tags);
-      newTags.add(tag);
-      return { ...player, tags: newTags };
-    };
+    (player: Player): Player => ({
+      ...player,
+      tags: player.tags.includes(tag) ? player.tags : [...player.tags, tag],
+    });
 
 const removeTag =
   (tag: string) =>
-    (player: Player): Player => {
-      const newTags = new Set(player.tags);
-      newTags.delete(tag);
-      return { ...player, tags: newTags };
-    };
+    (player: Player): Player => ({
+      ...player,
+      tags: player.tags.filter((t) => t !== tag),
+    });
 
 export default {
   create,

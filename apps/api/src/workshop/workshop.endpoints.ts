@@ -4,7 +4,7 @@ import { Result } from "@secret-santa/prelude";
 import type { IRepository } from "@secret-santa/data";
 import Elysia, { status } from "elysia";
 
-const createWorkshopSchema = workshopSchema.omit({ id: true });
+const createWorkshopSchema = workshopSchema;
 
 const createWorkshop = async ({
   body,
@@ -13,8 +13,13 @@ const createWorkshop = async ({
   body: z.infer<typeof createWorkshopSchema>;
   repo: IRepository<WorkshopType, PneumonicType>;
 }) => {
-  const { dollarLimit, players, name } = body;
-  const workshop = Workshop.create({ dollarLimit, name, players });
+  const { dollarLimit, players, name, id } = body;
+  // Deduplicate tags for each player
+  const uniquePlayers = players.map(p => ({
+    ...p,
+    tags: [...new Set(p.tags)]
+  }));
+  const workshop = Workshop.create({ id, dollarLimit, name, players: uniquePlayers });
   const result = await repo.save(workshop);
 
   return Result.isSuccess(result)

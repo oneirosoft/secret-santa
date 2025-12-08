@@ -3,11 +3,11 @@ import type { WorkshopType, PneumonicType } from "@secret-santa/domain";
 import { Result } from "@secret-santa/prelude";
 
 const _workshopStore = (() => {
-    const workshops = new Map<PneumonicType, WorkshopType>();
+    const workshops = new Map<string, WorkshopType>();
     return {
-        add: (workshop: WorkshopType) => workshops.set(workshop.id, workshop),
-        remove: (id: PneumonicType) => workshops.delete(id),
-        get: (id: PneumonicType) => workshops.get(id),
+        add: (workshop: WorkshopType) => workshops.set(workshop.id.value, workshop),
+        remove: (id: PneumonicType) => workshops.delete(id.value),
+        get: (id: PneumonicType) => workshops.get(id.value),
         all: () => workshops.values(),
     };
 })();
@@ -19,6 +19,7 @@ const repository: IRepository<WorkshopType, PneumonicType> = {
     },
     find: (id: PneumonicType) => {
         const value = _workshopStore.get(id);
+        console.log(value)
         const result = value
             ? Result.success(value)
             : Result.error<WorkshopType>(`Workshop ${id} was not found`);

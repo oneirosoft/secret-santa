@@ -15,11 +15,12 @@ export const workshopSchema = z.object({
 export type Workshop = z.infer<typeof workshopSchema>;
 
 const create = ({
+  id,
   dollarLimit,
   name,
   players,
-}: Omit<Workshop, "id" | "pairs">): Workshop => ({
-  id: Pn.create(5),
+}: Omit<Workshop, "pairs">): Workshop => ({
+  id,
   name,
   dollarLimit,
   players,
