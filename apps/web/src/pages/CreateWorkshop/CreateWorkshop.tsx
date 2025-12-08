@@ -4,6 +4,7 @@ import { useToast } from '@/components/Toast'
 import Pneumonic from '@secret-santa/domain/pneumonic'
 import type { Player } from '@secret-santa/domain/player'
 import './create-workshop.css'
+import { setPageTitle } from '../documentTitle'
 
 const CreateWorkshop = () => {
   const pneumonic = useRef(Pneumonic.create(7))
