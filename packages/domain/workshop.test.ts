@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import Workshop, { workshopSchema, type Workshop as WorkshopType } from "./workshop";
 import Player, { type Player as PlayerType } from "./player";
+import Pneumonic from "./pneumonic";
 import { Result } from "@secret-santa/prelude";
 
 describe("Workshop", () => {
@@ -12,6 +13,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -31,8 +33,8 @@ describe("Workshop", () => {
         Player.create({ nickname: "Alice", tags: new Set() }),
       ];
 
-      const workshop1 = Workshop.create({ name: "Exchange 1", dollarLimit: 50, players });
-      const workshop2 = Workshop.create({ name: "Exchange 2", dollarLimit: 50, players });
+      const workshop1 = Workshop.create({ id: Pneumonic.create(3), name: "Exchange 1", dollarLimit: 50, players });
+      const workshop2 = Workshop.create({ id: Pneumonic.create(3), name: "Exchange 2", dollarLimit: 50, players });
 
       expect(workshop1.id.value).not.toBe(workshop2.id.value);
     });
@@ -46,6 +48,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players: initialPlayers,
@@ -72,6 +75,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players: initialPlayers,
@@ -95,6 +99,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Test Exchange",
         dollarLimit: 100,
         players,
@@ -122,6 +127,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -145,6 +151,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -166,6 +173,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Test Exchange",
         dollarLimit: 100,
         players,
@@ -194,6 +202,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -212,6 +221,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -230,6 +240,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Test Exchange",
         dollarLimit: 100,
         players,
@@ -252,6 +263,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -279,6 +291,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -301,6 +314,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -322,6 +336,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Test Exchange",
         dollarLimit: 100,
         players,
@@ -346,6 +361,7 @@ describe("Workshop", () => {
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -364,10 +380,11 @@ describe("Workshop", () => {
   describe("workshopSchema", () => {
     test("should validate valid workshop", () => {
       const players: PlayerType[] = [
-        Player.create({ nickname: "Alice", tags: new Set(["family"]) }),
+        Player.create({ nickname: "Alice", tags: ["family"] }),
       ];
 
       const workshop = Workshop.create({
+        id: Pneumonic.create(3),
         name: "Holiday Exchange",
         dollarLimit: 50,
         players,
@@ -390,8 +407,8 @@ describe("Workshop", () => {
     });
 
     test("should parse workshop with pairs", () => {
-      const player1 = Player.create({ nickname: "Alice", tags: new Set(["family"]) });
-      const player2 = Player.create({ nickname: "Bob", tags: new Set(["friends"]) });
+      const player1 = Player.create({ nickname: "Alice", tags: ["family"] });
+      const player2 = Player.create({ nickname: "Bob", tags: ["friends"] });
 
       const workshopData: WorkshopType = {
         id: { value: "test-id" },
@@ -411,6 +428,145 @@ describe("Workshop", () => {
       expect(pair).toBeDefined();
       expect(pair![0].nickname).toBe("Alice");
       expect(pair![1].nickname).toBe("Bob");
+    });
+  });
+
+  describe("getPlayerPair", () => {
+    test("should return giver with undefined receiver when pairs are empty", () => {
+      const players: PlayerType[] = [
+        Player.create({ nickname: "Alice", tags: new Set(["family"]) }),
+        Player.create({ nickname: "Bob", tags: new Set(["friends"]) }),
+      ];
+
+      const workshop = Workshop.create({
+        id: Pneumonic.create(3),
+        name: "Holiday Exchange",
+        dollarLimit: 50,
+        players,
+      });
+
+      const result = Workshop.getPlayerPair("Alice")(workshop);
+
+      expect(Result.isSuccess(result)).toBe(true);
+      if (!Result.isSuccess(result)) return;
+
+      expect(result.value.giver.nickname).toBe("Alice");
+      expect(result.value.receiver).toBeUndefined();
+    });
+
+    test("should return error when player not found and pairs are empty", () => {
+      const players: PlayerType[] = [
+        Player.create({ nickname: "Alice", tags: new Set(["family"]) }),
+      ];
+
+      const workshop = Workshop.create({
+        id: Pneumonic.create(3),
+        name: "Holiday Exchange",
+        dollarLimit: 50,
+        players,
+      });
+
+      const result = Workshop.getPlayerPair("NonExistent")(workshop);
+
+      expect(Result.isError(result)).toBe(true);
+      if (!Result.isError(result)) return;
+
+      expect(result.message).toBe("Player is not in the game");
+    });
+
+    test("should return correct giver and receiver when pairs exist", () => {
+      const alice = Player.create({ nickname: "Alice", tags: new Set(["family"]) });
+      const bob = Player.create({ nickname: "Bob", tags: new Set(["friends"]) });
+      const charlie = Player.create({ nickname: "Charlie", tags: new Set(["work"]) });
+
+      const workshop: WorkshopType = {
+        id: { value: "test-id" },
+        name: "Holiday Exchange",
+        dollarLimit: 50,
+        players: [alice, bob, charlie],
+        pairs: [
+          [alice, bob],
+          [bob, charlie],
+        ],
+      };
+
+      const result = Workshop.getPlayerPair("Alice")(workshop);
+
+      expect(Result.isSuccess(result)).toBe(true);
+      if (!Result.isSuccess(result)) return;
+
+      expect(result.value.giver.nickname).toBe("Alice");
+      expect(result.value.receiver?.nickname).toBe("Bob");
+    });
+
+    test("should return correct pair for different giver", () => {
+      const alice = Player.create({ nickname: "Alice", tags: new Set(["family"]) });
+      const bob = Player.create({ nickname: "Bob", tags: new Set(["friends"]) });
+      const charlie = Player.create({ nickname: "Charlie", tags: new Set(["work"]) });
+
+      const workshop: WorkshopType = {
+        id: { value: "test-id" },
+        name: "Holiday Exchange",
+        dollarLimit: 50,
+        players: [alice, bob, charlie],
+        pairs: [
+          [alice, bob],
+          [bob, charlie],
+        ],
+      };
+
+      const result = Workshop.getPlayerPair("Bob")(workshop);
+
+      expect(Result.isSuccess(result)).toBe(true);
+      if (!Result.isSuccess(result)) return;
+
+      expect(result.value.giver.nickname).toBe("Bob");
+      expect(result.value.receiver?.nickname).toBe("Charlie");
+    });
+
+    test("should return error when giver not found in pairs", () => {
+      const alice = Player.create({ nickname: "Alice", tags: new Set(["family"]) });
+      const bob = Player.create({ nickname: "Bob", tags: new Set(["friends"]) });
+      const charlie = Player.create({ nickname: "Charlie", tags: new Set(["work"]) });
+
+      const workshop: WorkshopType = {
+        id: { value: "test-id" },
+        name: "Holiday Exchange",
+        dollarLimit: 50,
+        players: [alice, bob, charlie],
+        pairs: [
+          [alice, bob],
+        ],
+      };
+
+      const result = Workshop.getPlayerPair("Charlie")(workshop);
+
+      expect(Result.isError(result)).toBe(true);
+      if (!Result.isError(result)) return;
+
+      expect(result.message).toBe("Giver does not exist or has not been paired yet");
+    });
+
+    test("should return error when player does not exist in workshop", () => {
+      const alice = Player.create({ nickname: "Alice", tags: new Set(["family"]) });
+      const bob = Player.create({ nickname: "Bob", tags: new Set(["friends"]) });
+
+      const workshop: WorkshopType = {
+        id: { value: "test-id" },
+        name: "Holiday Exchange",
+        dollarLimit: 50,
+        players: [alice, bob],
+        pairs: [
+          [alice, bob],
+        ],
+      };
+
+      const result = Workshop.getPlayerPair("NonExistent")(workshop);
+
+      expect(Result.isError(result)).toBe(true);
+      if (!Result.isError(result)) return;
+
+      expect(result.message).toBe("Giver does not exist or has not been paired yet");
     });
   });
 });

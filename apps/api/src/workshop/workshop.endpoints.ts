@@ -28,10 +28,10 @@ const createWorkshop = async ({
     : status(404, result);
 };
 
-const findWorkshop = async ({ 
+const findWorkshop = async ({
   params: { id },
   repo
-}: { 
+}: {
   params: { id: string };
   repo: IRepository<WorkshopType, PneumonicType>;
 }) => {
@@ -55,31 +55,42 @@ const updateWishlist = async ({
   repo: IRepository<WorkshopType, PneumonicType>;
 }) => {
   const pneumonic = Pneumonic.from(params.id)
-  if(Result.isError(pneumonic)) return status(400, pneumonic)
+  if (Result.isError(pneumonic)) return status(400, pneumonic)
   const workshop = await repo.find(pneumonic.value)
   if (Result.isError(workshop)) return status(404, workshop)
-  
+
   const updatedWorkshop = Workshop.updatePlayerWishlist(params.playerNickname, body)(workshop.value)
   if (Result.isError(updatedWorkshop)) return status(404, updatedWorkshop)
-  
+
   const saveResult = await repo.save(updatedWorkshop.value)
-  
+
   return Result.isSuccess(saveResult)
     ? status(200, saveResult.value)
     : status(500, saveResult)
 }
 
-const workshopEndpoints = (repo: IRepository<WorkshopType, PneumonicType>) => 
+const getPlayer = async ({ params: { id, nickname }, repo }: { params: { id: string, nickname: string }, repo: IRepository<WorkshopType, PneumonicType> }) => {
+  const pneumonic = Pneumonic.from(id)
+  if (Result.isError(pneumonic)) return status(400, pneumonic)
+  const workshopResult = await repo.find(pneumonic.value)
+  const playerPair = workshopResult.flatMap(Workshop.getPlayerPair(nickname))
+  return Result.isSuccess(playerPair)
+    ? status(200, playerPair)
+    : status(404, playerPair)
+}
+
+const workshopEndpoints = (repo: IRepository<WorkshopType, PneumonicType>) =>
   new Elysia()
     .decorate('repo', repo)
     .group("/workshop", (g) =>
       g
         .put("/create", createWorkshop, { body: createWorkshopSchema })
-        .patch("/:id/player/:playerNickname/update-wishlist", updateWishlist, { 
+        .patch("/:id/player/:playerNickname/update-wishlist", updateWishlist, {
           params: z.object({ id: z.string(), playerNickname: z.string() }),
-          body: wishlistItemSchema.array(), 
+          body: wishlistItemSchema.array(),
         })
-        .get("/:id", findWorkshop),
+        .get("/:id", findWorkshop)
+        .get("/:id/player/:nickname", getPlayer),
     );
 
 export default workshopEndpoints;
