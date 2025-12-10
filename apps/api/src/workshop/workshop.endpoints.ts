@@ -19,13 +19,18 @@ const createWorkshop = async ({
     ...p,
     tags: [...new Set(p.tags)]
   }));
-  let workshop = Workshop.create({ id, dollarLimit, name, players: uniquePlayers });
-  workshop = Workshop.matchPlayers(workshop);
-  const result = await repo.save(workshop);
+  
+  const workshopResult = Workshop.create({ id, dollarLimit, name, players: uniquePlayers });
+  if (Result.isError(workshopResult)) {
+    return status(400, workshopResult);
+  }
+
+  const matchedWorkshop = Workshop.matchPlayers(workshopResult.value);
+  const result = await repo.save(matchedWorkshop);
 
   return Result.isSuccess(result)
     ? status(200, result.value)
-    : status(404, result);
+    : status(500, result);
 };
 
 const findWorkshop = async ({

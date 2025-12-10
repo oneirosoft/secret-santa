@@ -28,18 +28,22 @@ const CreateWorkshop = () => {
   const handleSave = async () => {
     const client = createClient({ baseUrl: 'http://localhost:3001' })
     try {
-      await (client.workshop as any).create.put({
+      const response = await client.workshop.create.put({
         id: pneumonic.current,
         name: workshopNameRef.current?.value ?? '',
         dollarLimit: 50,
-        players: players.map(p => ({ 
-          nickname: p.nickname, 
-          tags: p.tags, 
-          wishlist: [] 
+        players: players.map(p => ({
+          nickname: p.nickname,
+          tags: p.tags,
+          wishlist: []
         })),
         pairs: []
       })
-      navigate(`/${pneumonic.current.value}`)
+      console.log(response)
+      if (response.error?.value.message)
+        alert('An error occurred making the workshop')
+      else
+        navigate(`/${pneumonic.current.value}`)
     } catch (error) {
       showToast('An error occurred making the workshop')
     }
@@ -58,7 +62,7 @@ const CreateWorkshop = () => {
         <PneumonicDisplay pneumonic={pneumonic.current} />
       </div>
       <Button onClick={handleSave}>Create Workshop</Button>
-      <PlayerTable 
+      <PlayerTable
         players={players}
         onAddPlayer={handleAddPlayer}
         onDeletePlayer={handleDeletePlayer}

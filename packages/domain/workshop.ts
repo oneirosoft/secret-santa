@@ -19,13 +19,19 @@ const create = ({
   dollarLimit,
   name,
   players,
-}: Omit<Workshop, "pairs">): Workshop => ({
-  id,
-  name,
-  dollarLimit,
-  players,
-  pairs: [],
-});
+}: Omit<Workshop, "pairs">): ResultType<Workshop> => {
+  if (players.length === 0) {
+    return Result.error('Cannot create a workshop without players');
+  }
+  
+  return Result.success({
+    id,
+    name,
+    dollarLimit,
+    players,
+    pairs: [],
+  });
+};
 
 const addPlayers =
   (players: Player[]) =>
