@@ -8,8 +8,12 @@ import PhraseInput from './PhraseInput';
 const Home = () => {
   const navigate = useNavigate()
 
+  const handleEnterWorkshop = (phrase: string) => {
+    navigate(`/${phrase}/player`)
+  }
+
   return <div className='home'><h1>Secret Santa</h1>
-    <PhraseInput />
+    <PhraseInput onClick={handleEnterWorkshop} />
     <Button variant='secondary' onClick={() => navigate('/create')}>Create Workshop</Button>
     <Countdown />
   </div>

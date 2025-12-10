@@ -76,17 +76,27 @@ type PairedPlayer = {
 }
 
 const getPlayerPair = (nickname: string) => (workshop: Workshop): ResultType<PairedPlayer> => {
-  if (workshop.pairs.length === 0) {
-    const player = workshop.players.find(p => p.nickname === nickname)
-    return player ? Result.success({ giver: player, receiver: undefined }) : Result.error('Player is not in the game')
+  const player = workshop.players.find(p => p.nickname === nickname)
+  if (!player) {
+    return Result.error('Player is not in the game')
   }
-  const pair = workshop.pairs.find(([giver, _]) => giver.nickname === nickname) ?? []
-  const [giver, receiver] = pair
-  return giver && receiver
-    ? Result.success({
-      giver, receiver
-    })
-    : Result.error('Giver does not exist or has not been paired yet')
+
+  if (workshop.pairs.length === 0) {
+    return Result.success({ giver: player, receiver: undefined })
+  }
+
+  const pair = workshop.pairs.find(([giver, _]) => giver.nickname === nickname)
+  if (!pair) {
+    return Result.error('Giver does not exist or has not been paired yet')
+  }
+
+  const [_, receiverFromPair] = pair
+  const receiver = workshop.players.find(p => p.nickname === receiverFromPair.nickname)
+
+  return Result.success({
+    giver: player,
+    receiver: receiver
+  })
 }
 
 export default {

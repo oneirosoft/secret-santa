@@ -65,7 +65,7 @@ const updateWishlist = async ({
   const saveResult = await repo.save(updatedWorkshop.value)
 
   return Result.isSuccess(saveResult)
-    ? status(200, saveResult.value)
+    ? status(200, body)
     : status(500, saveResult)
 }
 
@@ -73,9 +73,10 @@ const getPlayer = async ({ params: { id, nickname }, repo }: { params: { id: str
   const pneumonic = Pneumonic.from(id)
   if (Result.isError(pneumonic)) return status(400, pneumonic)
   const workshopResult = await repo.find(pneumonic.value)
-  const playerPair = workshopResult.flatMap(Workshop.getPlayerPair(nickname))
+  if (Result.isError(workshopResult)) return status(404, workshopResult)
+  const playerPair = Workshop.getPlayerPair(nickname)(workshopResult.value)
   return Result.isSuccess(playerPair)
-    ? status(200, playerPair)
+    ? status(200, playerPair.value)
     : status(404, playerPair)
 }
 
