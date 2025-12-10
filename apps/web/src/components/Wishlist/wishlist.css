@@ -3,10 +3,13 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1.5rem;
+  font-size: 1.5rem;
+  line-height: 1.6;
   background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   width: 100%;
+  max-width: 420px;
 }
 
 .wishlist h3 {
@@ -29,6 +32,7 @@
   background-color: rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 4px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .wishlist-item-content {
@@ -36,18 +40,26 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  min-width: 0;
 }
 
 .wishlist-item-name {
   font-weight: 500;
   color: var(--christmas-green);
+  font-size: 1.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .wishlist-item-url {
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   color: #666;
   text-decoration: none;
-  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 .wishlist-item-url:hover {
@@ -76,13 +88,32 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.25rem;
+  align-items: center;
 }
 
 .wishlist-add-item-inputs {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.wishlist .input-group {
+  gap: 0.25rem;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.wishlist .input-group label {
+  font-size: 1.25rem;
+}
+
+.wishlist .input-group input {
+  padding: 0.75rem 1rem;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .wishlist-empty {
