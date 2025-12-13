@@ -26,7 +26,7 @@ const CreateWorkshop = () => {
   }
 
   const handleSave = async () => {
-    const client = createClient({ baseUrl: 'http://localhost:3001' })
+    const client = createClient()
     try {
       const response = await client.workshop.create.put({
         id: pneumonic.current,

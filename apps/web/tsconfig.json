@@ -6,6 +6,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "resolveJsonModule": true,
     "strict": true
   },
   "include": ["bun-env.d.ts", "src"],

@@ -7,7 +7,7 @@ import './workshop.css'
 
 const WorkshopPage = () => {
   const { pneumonic } = useParams<{ pneumonic: string }>()
-  const client = createClient({ baseUrl: 'http://localhost:3001' })
+  const client = createClient()
 
   const { data: workshop, isLoading, error } = useQuery({
     queryKey: ['workshop', pneumonic],

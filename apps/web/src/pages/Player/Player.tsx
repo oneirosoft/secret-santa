@@ -13,7 +13,7 @@ const PlayerPage = () => {
   const { pneumonic } = useParams<{ pneumonic: string }>()
   const [nickname, setNickname] = useState<string | null>(null)
   const nicknameRef = useRef<HTMLInputElement>(null)
-  const client = createClient({ baseUrl: 'http://localhost:3001' })
+  const client = createClient()
   const queryClient = useQueryClient()
   const { showToast } = useToast()
 
@@ -110,7 +110,7 @@ const PlayerPage = () => {
   return (
     <div className='player'>
       <h1>Welcome, {playerPair.giver.nickname}!</h1>
-      
+      <button>Refresh</button>
       <div className='player-wishlists'>
         {playerPair.receiver ? (
           <Wishlist
@@ -126,7 +126,7 @@ const PlayerPage = () => {
             </div>
           </div>
         )}
-        
+
         <Wishlist
           title='Your Wishlist'
           items={playerPair.giver.wishlist}
