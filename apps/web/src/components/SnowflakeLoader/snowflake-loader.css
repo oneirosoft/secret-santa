@@ -1,0 +1,62 @@
+.snowflake-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.snowflake {
+  display: inline-block;
+  color: #1e40af;
+  animation: snowflake-spin 2s linear infinite;
+}
+
+.snowflake-loader-xs .snowflake {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.snowflake-loader-small .snowflake {
+  width: 2rem;
+  height: 2rem;
+}
+
+.snowflake-loader-medium .snowflake {
+  width: 3rem;
+  height: 3rem;
+}
+
+.snowflake-loader-large .snowflake {
+  width: 4rem;
+  height: 4rem;
+}
+
+.snowflake-group {
+  transform-origin: center;
+  animation: snowflake-pulse 1s ease-in-out infinite alternate;
+}
+
+.snowflake-loader-message {
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@keyframes snowflake-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes snowflake-pulse {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}

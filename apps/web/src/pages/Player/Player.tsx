@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useParams, useSearchParams } from 'react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { WishlistItem } from '@secret-santa/domain/player'
 import Input from '@/components/Input'
 import Button from '@/components/Button'
 import Wishlist from '@/components/Wishlist'
+import SnowflakeLoader from '@/components/SnowflakeLoader'
 import { useToast } from '@/components/Toast'
 import { createClient } from '@/api'
 import './player.css'
@@ -14,13 +15,14 @@ const PlayerPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const nicknameParam = searchParams.get('nickname')
   const [nickname, setNickname] = useState<string | null>(nicknameParam)
+  const [showLoader, setShowLoader] = useState(false)
   const nicknameRef = useRef<HTMLInputElement>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const client = createClient()
   const queryClient = useQueryClient()
   const { showToast } = useToast()
 
-  const { data: playerPair, isLoading, error, refetch } = useQuery({
+  const { data: playerPair, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ['playerPair', pneumonic, nickname],
     queryFn: async () => {
       if (!pneumonic || !nickname) throw new Error('Missing pneumonic or nickname')
@@ -29,6 +31,15 @@ const PlayerPage = () => {
     },
     enabled: !!pneumonic && !!nickname,
   })
+
+  useEffect(() => {
+    if (isFetching) {
+      const timer = setTimeout(() => setShowLoader(true), 250)
+      return () => clearTimeout(timer)
+    } else {
+      setShowLoader(false)
+    }
+  }, [isFetching])
 
   const updateWishlistMutation = useMutation({
     mutationFn: async (wishlist: WishlistItem[]) => {
@@ -79,7 +90,7 @@ const PlayerPage = () => {
     if (timeoutRef.current)
       clearTimeout(timeoutRef.current)
 
-    setTimeout(refetch, 250)
+    timeoutRef.current = setTimeout(refetch, 500)
   }
 
   if (!nickname) {
@@ -104,7 +115,7 @@ const PlayerPage = () => {
   if (isLoading) {
     return (
       <div className='player'>
-        <div className='player-loading'>Loading your wishlists...</div>
+        <SnowflakeLoader size='large' message='Loading your wishlists...' />
       </div>
     )
   }
@@ -123,6 +134,9 @@ const PlayerPage = () => {
   return (
     <div className='player'>
       <h1>Welcome, {playerPair.giver.nickname}!</h1>
+      <div className='player-loader-container'>
+        {showLoader && <SnowflakeLoader size='xs' />}
+      </div>
       <Button onClick={handleRefresh}>Refresh</Button>
       <div className='player-wishlists'>
         {playerPair.receiver ? (
