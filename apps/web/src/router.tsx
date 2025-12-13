@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: '/', Component: Home, loader: () => setDocumentTitle('Home')},
+      { path: '/', Component: Home, loader: () => setDocumentTitle('Home') },
       { path: '/create', Component: CreateWorkshop, loader: () => setDocumentTitle('Create Workshop') },
       { path: '/:pneumonic', Component: Workshop, loader: () => setDocumentTitle('Workshop') },
       { path: '/:pneumonic/player', Component: Player, loader: () => setDocumentTitle('Player') }

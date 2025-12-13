@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useSearchParams } from 'react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { WishlistItem } from '@secret-santa/domain/player'
 import Input from '@/components/Input'
@@ -10,14 +10,17 @@ import { createClient } from '@/api'
 import './player.css'
 
 const PlayerPage = () => {
-  const { pneumonic } = useParams<{ pneumonic: string }>()
-  const [nickname, setNickname] = useState<string | null>(null)
+  const { pneumonic } = useParams<{ pneumonic: string, nickname?: string }>()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const nicknameParam = searchParams.get('nickname')
+  const [nickname, setNickname] = useState<string | null>(nicknameParam)
   const nicknameRef = useRef<HTMLInputElement>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const client = createClient()
   const queryClient = useQueryClient()
   const { showToast } = useToast()
 
-  const { data: playerPair, isLoading, error } = useQuery({
+  const { data: playerPair, isLoading, error, refetch } = useQuery({
     queryKey: ['playerPair', pneumonic, nickname],
     queryFn: async () => {
       if (!pneumonic || !nickname) throw new Error('Missing pneumonic or nickname')
@@ -47,6 +50,9 @@ const PlayerPage = () => {
   const handleNicknameSubmit = () => {
     const value = nicknameRef.current?.value?.trim()
     if (value) {
+      setSearchParams({
+        nickname: value
+      })
       setNickname(value)
     }
   }
@@ -67,6 +73,13 @@ const PlayerPage = () => {
     if (e.key === 'Enter') {
       handleNicknameSubmit()
     }
+  }
+
+  const handleRefresh = () => {
+    if (timeoutRef.current)
+      clearTimeout(timeoutRef.current)
+
+    setTimeout(refetch, 250)
   }
 
   if (!nickname) {
@@ -110,7 +123,7 @@ const PlayerPage = () => {
   return (
     <div className='player'>
       <h1>Welcome, {playerPair.giver.nickname}!</h1>
-      <button>Refresh</button>
+      <Button onClick={handleRefresh}>Refresh</Button>
       <div className='player-wishlists'>
         {playerPair.receiver ? (
           <Wishlist
